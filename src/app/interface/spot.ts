@@ -3,7 +3,8 @@ import {LatLng} from "leaflet";
 export interface Spot{
   id?:number;
   name:string;
-  coordinates:LatLng;
+  latitude:number;
+  longitude:number;
   description:string;
   commentCount?:number;
   creatorUsername?:string;

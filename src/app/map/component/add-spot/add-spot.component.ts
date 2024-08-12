@@ -4,7 +4,8 @@ import {NgIf} from "@angular/common";
 import {Subscription} from "rxjs";
 import {MapService} from "../../service/map.service";
 import {Spot} from "../../../interface/spot";
-import * as L from 'leaflet';
+import {UiService} from "../../service/ui.service";
+import {MapSpotEnum} from "../../../model/MapSpotEnum";
 
 
 @Component({
@@ -19,20 +20,29 @@ import * as L from 'leaflet';
 })
 export class AddSpotComponent {
   @Output() onAddSpot = new EventEmitter<Spot>();
-  spotRequest: Spot = {name:"",coordinates:L.latLng(0,0),description:""};
+  spotRequest: Spot = {name:"",longitude:0,latitude:0,description:""};
+  spotWasSelected:boolean = false;
   subscriptionToSelectSpot: Subscription;
 
-  constructor(private mapService:MapService) {
+  constructor(private mapService:MapService,
+              private uiService:UiService) {
 
     this.subscriptionToSelectSpot = mapService.onClick().subscribe(
       value => {
-        this.spotRequest.coordinates.lat = value.lat;
-        this.spotRequest.coordinates.lng = value.lng;
+        this.spotRequest.latitude = value.lat;
+        this.spotRequest.longitude = value.lng;
+        this.spotWasSelected = true;
       }
     )
   }
 
   onSubmit() {
-    this.onAddSpot.emit(this.spotRequest)
+    if (this.spotRequest.name == "" || !this.spotWasSelected){
+      alert("Please select properly");
+      return;
+    }
+
+    this.onAddSpot.emit(this.spotRequest);
+    this.uiService.toggleMenuMode(MapSpotEnum.DEFAULT);
   }
 }
