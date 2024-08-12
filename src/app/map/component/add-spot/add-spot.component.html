@@ -18,7 +18,7 @@
       <input type="text"
              name="latitude"
              id="latitude"
-             [(ngModel)]="spotRequest.latitude"
+             [(ngModel)]="spotRequest.coordinates.lat"
               readonly>
     </div>
     <div class="map-form-control">
@@ -26,7 +26,7 @@
       <input type="text"
              name="longitude"
              id="longitude"
-             [(ngModel)]="spotRequest.longitude"
+             [(ngModel)]="spotRequest.coordinates.lng"
              readonly>
     </div>
   </div>

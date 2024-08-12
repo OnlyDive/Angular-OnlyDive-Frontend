@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
 import {MapSpotEnum} from "../../model/MapSpotEnum";
+import {SpotResponse} from "../../interface/SpotResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class UiService {
 
   onToggle(){
     return this.subject.asObservable();
+  }
+
+  addSpot(spot: SpotResponse){
+    L.marker([spot.latitude,spot.longitude])
   }
 }

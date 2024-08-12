@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {SpotResponse} from "../../DTO/SpotResponse";
-import {SpotRequest} from "../../DTO/SpotRequest";
+import {Spot} from "../../interface/spot";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,7 +16,7 @@ export class SpotService {
 
   constructor(private http: HttpClient) {}
 
-  createSpot(spot: SpotRequest){
+  createSpot(spot: Spot){
     return this.http.post<SpotResponse>(this.apiUrl + '/create',spot,httpOptions);
   }
 }

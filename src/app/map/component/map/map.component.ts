@@ -6,9 +6,8 @@ import {NgIf} from "@angular/common";
 import {Subscription} from "rxjs";
 import {ButtonComponent} from "../../../tools/button/button.component";
 import {AddSpotComponent} from "../add-spot/add-spot.component";
-import {SpotRequest} from "../../../DTO/SpotRequest";
 import {SpotService} from "../../service/spot.service";
-import {SpotResponse} from "../../../DTO/SpotResponse";
+import {Spot} from "../../../interface/spot";
 
 @Component({
   selector: 'app-map',
@@ -21,9 +20,12 @@ import {SpotResponse} from "../../../DTO/SpotResponse";
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
+
 export class MapComponent implements OnInit {
   menuSpotMode: MapSpotEnum = MapSpotEnum.DEFAULT;
   subscription: Subscription;
+  spots: Spot[] = [];
+
   protected readonly MapSpotEnum = MapSpotEnum;
 
   constructor(private mapService: MapService,
@@ -43,7 +45,12 @@ export class MapComponent implements OnInit {
   }
 
   //comunication with spring
-  createSpot(spot: SpotRequest) {
-    this.spotService.createSpot(spot);
+  createSpot(spot: Spot) {
+    this.spotService.createSpot(spot).subscribe(
+      spot => {
+        this.spots.push(spot);
+
+      }
+    );
   }
 }
