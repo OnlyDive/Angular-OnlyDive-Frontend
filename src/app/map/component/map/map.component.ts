@@ -37,19 +37,27 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mapService.initMap();
+    this.mapService.initMap()
+    this.spotService.getAllSpots().subscribe(
+      spots => {
+        this.spots = spots
+        spots.forEach(
+          spot => this.mapService.addSpot(spot)
+        )
+      }
+    )
   }
 
   toggleMenuMode(mode: MapSpotEnum) {
-    this.uiService.toggleMenuMode(mode);
+    this.uiService.toggleMenuMode(mode)
   }
 
   //comunication with spring
   createSpot(spot: Spot) {
     this.spotService.createSpot(spot).subscribe(
       spot => {
-        this.spots.push(spot);
-
+        this.spots.push(spot)
+        this.mapService.addSpot(spot)
       }
     );
   }

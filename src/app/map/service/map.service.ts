@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import * as L from "leaflet";
 import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
 import {Subject} from "rxjs";
+import {Spot} from "../../interface/spot";
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,11 @@ export class MapService {
 
   onClick(){
     return this.subject.asObservable();
+  }
+
+  addSpot(spot: Spot){
+    const coordinates: L.LatLngExpression = [spot.latitude,spot.longitude];
+    L.marker(coordinates);
+    this.setMapCoordinates(coordinates);
   }
 }

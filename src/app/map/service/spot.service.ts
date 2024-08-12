@@ -17,6 +17,16 @@ export class SpotService {
   constructor(private http: HttpClient) {}
 
   createSpot(spot: Spot){
-    return this.http.post<SpotResponse>(this.apiUrl + '/create',spot,httpOptions);
+    let spotDto = {
+      name: spot.name,
+      longitude: spot.longitude,
+      latitude: spot.latitude
+    };
+    return this.http.post<Spot>(this.apiUrl + '/create',spotDto,httpOptions);
   }
+
+  getAllSpots(){
+    return this.http.get<Spot[]>(this.apiUrl + '/get/all',httpOptions);
+  }
+
 }
