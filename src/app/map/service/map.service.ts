@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as L from "leaflet";
 import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-  private map: L.Map | undefined;
+  private map?: L.Map;
+  private subject = new Subject<L.LatLng>();
 
   constructor() { }
 
@@ -18,6 +20,10 @@ export class MapService {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
+
+    this.map.on('click',
+      (e: L.LeafletMouseEvent) => this.subject.next(e.latlng)
+    )
   }
 
   setMapCoordinates(coordinates: L.LatLngExpression, zoomLevel? : number) : void{
@@ -26,10 +32,7 @@ export class MapService {
     } else throw new AngularOnlyDiveExeption("map has not been init");
   }
 
-  addMarker(coordinates : L.LatLngExpression) : void {
-    if (this.map) {
-      L.marker(coordinates)
-        .addTo(this.map);
-    }else throw new AngularOnlyDiveExeption("map has not been init");
+  onClick(){
+    return this.subject.asObservable();
   }
 }

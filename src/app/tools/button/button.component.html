@@ -1,5 +1,5 @@
 <button
-(click)="onClick()"
+(click)="onClick(); $event.stopPropagation()"
 [style.left]="left"
 [style.right]="right"
 [style.bottom]="bottom"
