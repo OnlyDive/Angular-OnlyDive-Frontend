@@ -1,0 +1,13 @@
+<h2 class="form-header">Log-In form</h2>
+<form (ngSubmit)="onSubmit()">
+    <div class="form-control">
+        <label for="day">Username</label>
+        <input type="text" name="username" [(ngModel)]="username" id="username" placeholder="Add username">
+    </div>
+    <div class="form-control">
+        <label for="day">Password</label>
+        <input type="password" name="password" [(ngModel)]="password" id="password" placeholder="Add password">
+    </div>
+    
+    <input type="submit" value="Log In" class="btn btn-block">
+</form>
