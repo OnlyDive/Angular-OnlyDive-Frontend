@@ -1,4 +1,5 @@
 <h2 class="form-header">Log-In form</h2>
+<app-message *ngIf="showSuccessfulSignupMessage" color="LightGreen" text="Sign Up completed, please check you email to activate the account"></app-message>
 <form (ngSubmit)="onSubmit()">
     <div class="form-control">
         <label for="day">Username</label>
