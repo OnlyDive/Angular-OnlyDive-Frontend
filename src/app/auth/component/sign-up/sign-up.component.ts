@@ -51,24 +51,25 @@ export class SignUpComponent {
       next: (v) => {
         console.log(v);
         sessionStorage.setItem("afterSuccessfulSignUp", "true");
-        this.router.navigate(['/logIn'])
+        this.router.navigate(['/logIn']).catch(e =>
+          console.error('Navigation failed!', e))
       },
       error: (e) => {
         console.log(e);
         try {
           const errorResponse = JSON.parse(e.error);
           if (errorResponse.error != undefined) {
-            this.alertText = "Error: "+errorResponse.error;
-          } 
+            this.alertText = "Error: " + errorResponse.error;
+          }
           else if (errorResponse.errors != undefined) {
-            this.alertText = "Errors: "+errorResponse.errors.join(', ');
+            this.alertText = "Errors: " + errorResponse.errors.join(', ');
           }
           this.showErrorAlert = true;
         } catch(ex) {
-          this.alertText = "Error: "+e.error;
+          this.alertText = "Error: " + e.error;
           this.showErrorAlert = true;
         }
       }
-    });;
+    });
   }
 }
