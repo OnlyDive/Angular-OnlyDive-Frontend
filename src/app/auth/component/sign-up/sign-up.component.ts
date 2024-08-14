@@ -7,6 +7,7 @@ import { ErrorsService } from '../../../error/errors.service';
 import { SignUpRequest } from '../../../interface/SignUpRequest';
 import { MessageComponent } from '../../../tools/message/message.component';
 import { CommonModule } from '@angular/common';
+import { MessageInfo } from '../../../interface/MessageInfo';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,18 +18,21 @@ import { CommonModule } from '@angular/common';
 })
 export class SignUpComponent {
   repeatPassword: string = "";
-  signUpRequest: SignUpRequest = { email:"", username:"", firstName:"", lastName:"", password:"" }
+  signUpRequest: SignUpRequest = { email:"", username:"", firstName:"", lastName:"", password:"" };
 
-  alertColor: string = "Crimson";
-  alertText!: string;
-  showErrorAlert: boolean = false;
+  messageInfo: MessageInfo = { 
+    color: "Crimson", 
+    text: "",
+    textColor: "white",
+    enabled: false
+  }
 
   constructor(private errorsService: ErrorsService, private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     if (this.signUpRequest.password != this.repeatPassword) {
-      this.alertText = "Password and repeated password must match!";
-      this.showErrorAlert = true;
+      this.messageInfo.text = "Password and repeated password must match!";
+      this.messageInfo.enabled = true;
       return;
     }
 
@@ -40,8 +44,7 @@ export class SignUpComponent {
           console.error('Navigation failed!', e))
       },
       error: (e) => {
-        this.alertText = this.errorsService.getResponseErrors(e);
-        this.showErrorAlert = true;
+        this.messageInfo = this.errorsService.getResponseErrors(e)[1];
       }
     });
   }

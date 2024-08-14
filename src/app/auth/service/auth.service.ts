@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SignUpRequest } from '../../interface/SignUpRequest';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs'
+import { LogInRequest } from '../../interface/LogInRequest';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -21,5 +22,10 @@ export class AuthService {
   signUp(signUpRequest: SignUpRequest): Observable<HttpResponse<any>> {
     const url = `${this.apiUrl}/signUp`;
     return this.http.post<HttpResponse<any>>(url, signUpRequest, httpOptions)
+  }
+
+  logIn(logInRequest: LogInRequest): Observable<HttpResponse<any>> {
+    const url = `${this.apiUrl}/logIn`;
+    return this.http.post<HttpResponse<any>>(url, logInRequest, httpOptions);
   }
 }

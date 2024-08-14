@@ -1,5 +1,5 @@
 <h2 class="form-header">Sign-Up form</h2>
-<app-message *ngIf="showErrorAlert" color={{alertColor}} text={{alertText}} textColor="white"></app-message>
+<app-message *ngIf="messageInfo.enabled" color="{{messageInfo.color}}" text="{{messageInfo.text}}" textColor="{{messageInfo.textColor}}"></app-message>
 <form (ngSubmit)="onSubmit()">
     <div class="form-control">
         <label for="email">E-mail</label>
