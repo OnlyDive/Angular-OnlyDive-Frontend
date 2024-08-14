@@ -1,11 +1,9 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
 
 export const customInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const authService = inject(AuthService);
-  const jwt = authService.getJWT();
+  const jwt = JSON.parse(localStorage.getItem("JWT") || "{}");
 
   if (jwt.jwtToken == undefined) {
     return next(req);

@@ -51,6 +51,8 @@ export class AuthService {
       return true;
     }
 
+    console.log("refreshing token");
+
     const refreshTokenRequest: RefreshTokenRequest = { refreshToken: jwt.refreshToken, username: jwt.user };
 
     this.refreshToken(refreshTokenRequest).subscribe({
@@ -60,6 +62,7 @@ export class AuthService {
         return true;
       },
       error: (e) => {
+        console.log(e);
         return false;
       }
     });
