@@ -3,7 +3,7 @@
       (ngSubmit)="onSubmit()"
       (click)="$event.stopPropagation()">
   <header>Create a new Spot!</header>
-  <div class="map-form-control">
+  <div class="map-control">
     <label for="name">Spot's name</label>
     <input type="text"
            name="name"
@@ -11,7 +11,7 @@
            [(ngModel)]="spotRequest.name"
            placeholder="Write Spot's name">
   </div>
-  <div class="map-form-control">
+  <div class="map-control">
     <label for="description">Spot's name</label>
     <input type="text"
            name="description"
@@ -20,8 +20,8 @@
            placeholder="Write Spot's description">
   </div>
   <h3>Select Spot on the map</h3>
-  <div class="map-form-control">
-    <div class="map-form-control">
+  <div class="map-control">
+    <div class="map-control">
       <label for="latitude">Spot's latitude</label>
       <input type="text"
              name="latitude"
@@ -29,7 +29,7 @@
              [(ngModel)]="spotRequest.latitude"
               readonly>
     </div>
-    <div class="map-form-control">
+    <div class="map-control">
       <label for="longitude">Spot's latitude</label>
       <input type="text"
              name="longitude"
@@ -38,5 +38,5 @@
              readonly>
     </div>
   </div>
-  <input type="submit" value="Save Spot" class=""/>
+  <input type="submit" value="Save Spot" class="btn btn-block"/>
 </form>

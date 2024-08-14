@@ -9,12 +9,17 @@
     </div>
 
     <div *ngIf="menuSpotMode===MapSpotEnum.CREATE">
-      <app-add-spot (onAddSpot)="createSpot($event)"></app-add-spot>
+      <app-add-spot  (onAddSpot)="createSpot($event)"></app-add-spot>
     </div>
 
     <app-button *ngIf="menuSpotMode!==MapSpotEnum.DEFAULT" left = "10px"
                 bottom = "30px"
                 text = "<"
                 (btnClick)="toggleMenuMode(MapSpotEnum.DEFAULT)"/>
+
+    <div *ngIf="menuSpotMode===MapSpotEnum.VIEW">
+      <app-view-spot [spot]=""></app-view-spot>
+    </div>
+
   </div>
 </div>

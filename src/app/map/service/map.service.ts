@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import * as L from "leaflet";
 import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
 import {Subject} from "rxjs";
@@ -41,6 +41,9 @@ export class MapService {
   addSpot(spot: Spot){
     const coordinates: L.LatLngExpression = [spot.latitude,spot.longitude];
     console.log(spot);
-    L.marker(coordinates).addTo(this.map);
+    var marker = L.marker(coordinates).addTo(this.map);
+
+    // marker.on('click', (e) =>
+    //   this.spotClicked.emit(spot));
   }
 }
