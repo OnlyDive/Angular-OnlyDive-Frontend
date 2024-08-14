@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../service/auth.service';
+import { ErrorsService } from '../../service/errors.service';
 import { SignUpRequest } from '../../../interface/SignUpRequest';
 import { MessageComponent } from '../../../tools/message/message.component';
 import { CommonModule } from '@angular/common';
@@ -15,39 +16,23 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./sign-up.component.css', '../../../styles/formStyles.css', '../../../styles/buttonStyles.css'],
 })
 export class SignUpComponent {
-  email!: string;
-  username!: string;
-  firstName!: string;
-  lastName!: string;
-  password!: string;
-  repeatPassword!: string;
+  repeatPassword: string = "";
+  signUpRequest: SignUpRequest = { email:"", username:"", firstName:"", lastName:"", password:"" }
 
   alertColor: string = "Crimson";
   alertText!: string;
   showErrorAlert: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private errorsService: ErrorsService, private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    if (this.password == undefined || this.password.trim() == "") {
-      this.alertText = "Password must not be empty";
-      this.showErrorAlert = true;
-      return;
-    } else if (this.password != this.repeatPassword) {
+    if (this.signUpRequest.password != this.repeatPassword) {
       this.alertText = "Password and repeated password must match!";
       this.showErrorAlert = true;
       return;
     }
 
-    const signUpRequest: SignUpRequest = {
-      email: this.email,
-      username: this.username,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      password: this.password
-    };
-
-    this.authService.signUp(signUpRequest).subscribe({
+    this.authService.signUp(this.signUpRequest).subscribe({
       next: (v) => {
         console.log(v);
         sessionStorage.setItem("afterSuccessfulSignUp", "true");
@@ -55,20 +40,8 @@ export class SignUpComponent {
           console.error('Navigation failed!', e))
       },
       error: (e) => {
-        console.log(e);
-        try {
-          const errorResponse = JSON.parse(e.error);
-          if (errorResponse.error != undefined) {
-            this.alertText = "Error: " + errorResponse.error;
-          }
-          else if (errorResponse.errors != undefined) {
-            this.alertText = "Errors: " + errorResponse.errors.join(', ');
-          }
-          this.showErrorAlert = true;
-        } catch(ex) {
-          this.alertText = "Error: " + e.error;
-          this.showErrorAlert = true;
-        }
+        this.alertText = this.errorsService.getResponseErrors(e);
+        this.showErrorAlert = true;
       }
     });
   }
