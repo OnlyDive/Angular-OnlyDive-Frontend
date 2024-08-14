@@ -43,14 +43,17 @@ export class LogInComponent {
       this.messageInfo.enabled = Boolean(afterAccountVerification);
       console.log("Redirected after successful account verification!");
     }
+
   }
 
   onSubmit() {
     this.authService.logIn(this.logInRequest).subscribe({
       next: (v) => {
         console.log(v);
-        this.router.navigate(['/']).catch(e =>
-          console.error('Navigation failed!', e))
+
+        this.authService.saveJWT(v.toString());
+
+        this.router.navigate(['/'])
       },
       error: (e) => {
         this.messageInfo = this.errorsService.getResponseErrors(e)[1];
