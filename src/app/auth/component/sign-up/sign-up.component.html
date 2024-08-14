@@ -2,29 +2,29 @@
 <app-message *ngIf="showErrorAlert" color={{alertColor}} text={{alertText}} textColor="white"></app-message>
 <form (ngSubmit)="onSubmit()">
     <div class="form-control">
-        <label for="text">E-mail</label>
+        <label for="email">E-mail</label>
         <input type="text" name="email" [(ngModel)]="email" id="email" placeholder="Add e-mail">
     </div>
     <div class="form-control">
-        <label for="day">Username</label>
+        <label for="username">Username</label>
         <input type="text" name="username" [(ngModel)]="username" id="username" placeholder="Add username">
     </div>
     <div class="form-control">
-        <label for="day">First name</label>
+        <label for="firstName">First name</label>
         <input type="text" name="firstName" [(ngModel)]="firstName" id="firstName" placeholder="Add first name">
     </div>
     <div class="form-control">
-        <label for="day">Last name</label>
+        <label for="lastName">Last name</label>
         <input type="text" name="lastName" [(ngModel)]="lastName" id="lastName" placeholder="Add last name">
     </div>
     <div class="form-control">
-        <label for="day">Password</label>
+        <label for="password">Password</label>
         <input type="password" name="password" [(ngModel)]="password" id="password" placeholder="Add password">
     </div>
     <div class="form-control">
-        <label for="day">Repeat Password</label>
+        <label for="repeatPassword">Repeat Password</label>
         <input type="password" name="repeatPassword" [(ngModel)]="repeatPassword" id="repeatPassword" placeholder="Repeat password">
     </div>
-    
+
     <input type="submit" value="Sign Up" class="btn btn-block">
 </form>
