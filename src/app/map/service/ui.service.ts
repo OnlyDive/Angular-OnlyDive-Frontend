@@ -6,7 +6,7 @@ import {MapSpotEnum} from "../../model/MapSpotEnum";
   providedIn: 'root'
 })
 export class UiService {
-  private showAddSpot:MapSpotEnum = MapSpotEnum.DEFAULT;
+  private showAddSpot = MapSpotEnum.DEFAULT;
   private subject = new Subject<MapSpotEnum>();
 
   constructor() { }

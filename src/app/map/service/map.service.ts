@@ -4,11 +4,12 @@ import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
 import {Subject} from "rxjs";
 import {Spot} from "../../interface/spot";
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-  private map?: L.Map;
+  private map!: L.Map;
   private subject = new Subject<L.LatLng>();
 
   constructor() { }
@@ -39,7 +40,7 @@ export class MapService {
 
   addSpot(spot: Spot){
     const coordinates: L.LatLngExpression = [spot.latitude,spot.longitude];
-    L.marker(coordinates);
-    this.setMapCoordinates(coordinates);
+    console.log(spot);
+    L.marker(coordinates).addTo(this.map);
   }
 }

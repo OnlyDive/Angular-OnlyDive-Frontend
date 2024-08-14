@@ -23,7 +23,6 @@ import {Spot} from "../../../interface/spot";
 
 export class MapComponent implements OnInit {
   menuSpotMode: MapSpotEnum = MapSpotEnum.DEFAULT;
-  subscription: Subscription;
   spots: Spot[] = [];
 
   protected readonly MapSpotEnum = MapSpotEnum;
@@ -31,31 +30,28 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService,
               private uiService:UiService,
               private spotService: SpotService) {
-    this.subscription = uiService.onToggle().subscribe(
+    uiService.onToggle().subscribe(
       value => this.menuSpotMode = value
+    )
+    this.spotService.getAllSpots().subscribe(value => {
+        this.spots = value;
+        this.spots.forEach( spot => this.mapService.addSpot(spot))
+      }
     )
   }
 
   ngOnInit(): void {
     this.mapService.initMap()
-    this.spotService.getAllSpots().subscribe(
-      spots => {
-        this.spots = spots
-        spots.forEach(
-          spot => this.mapService.addSpot(spot)
-        )
-      }
-    )
   }
 
   toggleMenuMode(mode: MapSpotEnum) {
     this.uiService.toggleMenuMode(mode)
   }
 
-  //comunication with spring
   createSpot(spot: Spot) {
     this.spotService.createSpot(spot).subscribe(
       spot => {
+        console.log(spot)
         this.spots.push(spot)
         this.mapService.addSpot(spot)
       }
