@@ -20,7 +20,7 @@ export class AuthService {
   private apiUrl: string = 'http://localhost:8080/api/v1/auth'
 
   constructor(private http: HttpClient, private router: Router) { 
-    if (this.router.url != '/logOut') {
+    if (!this.router.url.startsWith('/logOut') && !this.router.url.startsWith("/verifyAccount")) {
       this.checkLogIn();
     }
   }

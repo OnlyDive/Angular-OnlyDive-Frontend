@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { MessageInfo } from '../interface/MessageInfo';
+import { MessageInfo } from '../tools/message/MessageInfo';
 
 @Injectable({
   providedIn: 'root'

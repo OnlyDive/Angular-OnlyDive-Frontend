@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
-import { MessageInfo } from '../../../interface/MessageInfo';
+import { MessageInfo } from '../../../tools/message/MessageInfo';
 import { ErrorsService } from '../../../error/errors.service';
 import { MessageComponent } from '../../../tools/message/message.component';
 import { CommonModule } from '@angular/common';
@@ -17,14 +17,11 @@ import { CommonModule } from '@angular/common';
 export class VerifyAccountComponent {
   verificationToken!: string
   
-  messageInfo: MessageInfo = { 
-    color: "Crimson", 
-    text: "",
-    textColor: "white",
-    enabled: false
-  }
+  messageInfo: MessageInfo;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private errorsService: ErrorsService) { }
+  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private errorsService: ErrorsService) {
+    this.messageInfo = MessageComponent.prototype.getDefaultErrorConfiguration();
+  }
 
   ngOnInit(): void {
     this.verificationToken = this.route.snapshot.paramMap.get('verificationToken') || "";
@@ -36,9 +33,9 @@ export class VerifyAccountComponent {
     this.authService.verifyAccount(this.verificationToken).subscribe({
       next: (v) => {
         console.log(v);
-        sessionStorage.setItem("afterSuccessfulAccountVerification", "true");
-        this.router.navigate(['/logIn']).catch(e =>
-          console.error('Navigation failed!', e));
+        sessionStorage.setItem("redirectionLogIn", "true");
+        sessionStorage.setItem("redirectionLogInText", "Your account has just been verified. Please log in");
+        this.router.navigate(['/logIn'])
       },
       error: (e) => {
         this.messageInfo = this.errorsService.getResponseErrors(e)[1];

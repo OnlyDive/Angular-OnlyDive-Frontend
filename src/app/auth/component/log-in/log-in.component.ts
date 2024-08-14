@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 import { LogInRequest } from '../../../interface/LogInRequest';
 import { AuthService } from '../../service/auth.service';
-import { MessageInfo } from '../../../interface/MessageInfo';
+import { MessageInfo } from '../../../tools/message/MessageInfo';
 import { ErrorsService } from '../../../error/errors.service';
 
 @Component({
@@ -18,30 +18,22 @@ import { ErrorsService } from '../../../error/errors.service';
 })
 export class LogInComponent {
   logInRequest: LogInRequest = { username:"", password:"" }
-  messageInfo: MessageInfo = { 
-    color: "LightGreen", 
-    text: "",
-    textColor: "black",
-    enabled: false
+  messageInfo: MessageInfo;
+
+  constructor(private router: Router, private authService: AuthService, private errorsService: ErrorsService) {
+    this.messageInfo = MessageComponent.prototype.getDefaultMessageConfiguration();
   }
 
-  constructor(private router: Router, private authService: AuthService, private errorsService: ErrorsService) {}
-
   ngOnInit() {
-    const afterSignUp = sessionStorage.getItem("afterSuccessfulSignUp");
-    if (afterSignUp != null) {
-      sessionStorage.removeItem("afterSuccessfulSignUp");
-      this.messageInfo.text = "Sign Up completed, please check you email to activate the account";
-      this.messageInfo.enabled = Boolean(afterSignUp);
-      console.log("Redirected after successful sign up!");
-    }
+    const afterRedirection = sessionStorage.getItem("redirectionLogIn");
+    if (afterRedirection != null) {
+      this.messageInfo.enabled = Boolean(afterRedirection);
+      this.messageInfo.text = sessionStorage.getItem("redirectionLogInText") || "";
 
-    const afterAccountVerification = sessionStorage.getItem("afterSuccessfulAccountVerification");
-    if (afterAccountVerification != null) {
-      sessionStorage.removeItem("afterSuccessfulAccountVerification");
-      this.messageInfo.text = "Your account has just been verified. Please log in";
-      this.messageInfo.enabled = Boolean(afterAccountVerification);
-      console.log("Redirected after successful account verification!");
+      sessionStorage.removeItem("redirectionLogIn");
+      sessionStorage.removeItem("redirectionLogInText");
+
+      console.log(`Redirected successfully with message "${this.messageInfo.text}"!`);
     }
 
   }

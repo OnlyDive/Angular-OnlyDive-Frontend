@@ -7,7 +7,7 @@ import { ErrorsService } from '../../../error/errors.service';
 import { SignUpRequest } from '../../../interface/SignUpRequest';
 import { MessageComponent } from '../../../tools/message/message.component';
 import { CommonModule } from '@angular/common';
-import { MessageInfo } from '../../../interface/MessageInfo';
+import { MessageInfo } from '../../../tools/message/MessageInfo';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,14 +20,11 @@ export class SignUpComponent {
   repeatPassword: string = "";
   signUpRequest: SignUpRequest = { email:"", username:"", firstName:"", lastName:"", password:"" };
 
-  messageInfo: MessageInfo = { 
-    color: "Crimson", 
-    text: "",
-    textColor: "white",
-    enabled: false
-  }
+  messageInfo: MessageInfo;
 
-  constructor(private errorsService: ErrorsService, private authService: AuthService, private router: Router) {}
+  constructor(private errorsService: ErrorsService, private authService: AuthService, private router: Router) {
+    this.messageInfo = MessageComponent.prototype.getDefaultErrorConfiguration();
+  }
 
   onSubmit() {
     if (this.signUpRequest.password != this.repeatPassword) {
@@ -39,9 +36,9 @@ export class SignUpComponent {
     this.authService.signUp(this.signUpRequest).subscribe({
       next: (v) => {
         console.log(v);
-        sessionStorage.setItem("afterSuccessfulSignUp", "true");
-        this.router.navigate(['/logIn']).catch(e =>
-          console.error('Navigation failed!', e))
+        sessionStorage.setItem("redirectionLogIn", "true");
+        sessionStorage.setItem("redirectionLogInText", "Sign Up completed, please check you email to activate the account");
+        this.router.navigate(['/logIn'])
       },
       error: (e) => {
         this.messageInfo = this.errorsService.getResponseErrors(e)[1];
