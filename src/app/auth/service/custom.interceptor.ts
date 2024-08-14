@@ -7,6 +7,10 @@ export const customInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const jwt = authService.getJWT();
 
+  if (jwt.jwtToken == undefined) {
+    return next(req);
+  }
+
   const clonedRequest = req.clone({
     setHeaders: {
       Authorization: `Bearer ${jwt.jwtToken}`
