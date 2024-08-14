@@ -28,4 +28,9 @@ export class AuthService {
     const url = `${this.apiUrl}/logIn`;
     return this.http.post<HttpResponse<any>>(url, logInRequest, httpOptions);
   }
+
+  verifyAccount(verificationToken: string): Observable<HttpResponse<any>> {
+    const url = `${this.apiUrl}/verifyAccount/${verificationToken}`;
+    return this.http.get<HttpResponse<any>>(url, httpOptions);
+  }
 }

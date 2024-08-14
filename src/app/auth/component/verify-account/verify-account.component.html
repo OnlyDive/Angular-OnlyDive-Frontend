@@ -1,0 +1,5 @@
+<h2 class="form-header">Verify Account</h2>
+<app-message *ngIf="messageInfo.enabled" color="{{messageInfo.color}}" text="{{messageInfo.text}}" textColor="{{messageInfo.textColor}}"></app-message>
+<form (ngSubmit)="onSubmit()">
+    <input type="submit" value="Verify" class="btn btn-block">
+</form>
