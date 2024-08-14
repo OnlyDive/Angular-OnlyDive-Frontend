@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../service/auth.service';
-import { SignUpRequest } from '../../../dto/SignUpRequest';
+import { SignUpRequest } from '../../../interface/SignUpRequest';
 import { MessageComponent } from '../../../tools/message/message.component';
 import { CommonModule } from '@angular/common';
 

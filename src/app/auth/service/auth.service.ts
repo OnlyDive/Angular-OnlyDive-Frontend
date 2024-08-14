@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SignUpRequest } from '../../dto/SignUpRequest';
+import { SignUpRequest } from '../../interface/SignUpRequest';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs'
 
