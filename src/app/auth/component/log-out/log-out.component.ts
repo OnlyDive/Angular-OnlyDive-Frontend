@@ -14,14 +14,9 @@ export class LogOutComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-    }
-
     this.authService.logOut().subscribe({
-      complete: () => {
-        this.router.navigate(['/']);
-      }
+      complete: () => this.router.navigate(['/']),
+      error: () => this.router.navigate(['/'])
     });
   }
 }

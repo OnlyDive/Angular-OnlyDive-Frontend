@@ -20,9 +20,8 @@ export class AuthService {
   private apiUrl: string = 'http://localhost:8080/api/v1/auth'
 
   constructor(private http: HttpClient, private router: Router) { 
-    // console.log(this.isLoggedIn());
-    if (this.router.url != '/logOut' && this.isLoggedIn()) {
-      this.router.navigate(['/'])
+    if (this.router.url != '/logOut') {
+      this.checkLogIn();
     }
   }
 
@@ -38,17 +37,17 @@ export class AuthService {
     return JSON.parse(localStorage.getItem("JWT") || "{}");
   }
 
-  isLoggedIn(): boolean {
+  checkLogIn(): void {
     const jwt = this.getJWT();
 
-    if (jwt.jwtToken == undefined) return false;
+    if (jwt.jwtToken == undefined) return;
 
     const curTime = Date.now()/1000;
 
     console.log(curTime, jwt.expires);
 
     if (curTime < jwt.expires) {
-      return true;
+      this.router.navigate(['/']);
     }
 
     console.log("refreshing token");
@@ -59,15 +58,13 @@ export class AuthService {
       next: (v) => {
         console.log(v);
         this.saveJWT(v.toString());
-        return true;
+        this.router.navigate(['/']);
       },
       error: (e) => {
         console.log(e);
-        return false;
       }
     });
 
-    return false;
   }
 
   refreshToken(refreshTokenRequest: RefreshTokenRequest): Observable<HttpResponse<any>> {
