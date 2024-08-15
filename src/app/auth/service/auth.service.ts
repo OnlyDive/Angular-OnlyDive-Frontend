@@ -42,11 +42,13 @@ export class AuthService {
 
     if (jwt.jwtToken == undefined) return;
 
-    const curTime = Date.now()/1000;
+    const curTime = new Date();
+    curTime.setHours(curTime.getHours() + 1);
+    const okTime = curTime.getTime()/1000;
 
-    console.log(curTime, jwt.expires);
+    console.log(okTime, jwt.expires);
 
-    if (curTime < jwt.expires) {
+    if (okTime < jwt.expires) {
       this.router.navigate(['/']);
     }
 
@@ -62,6 +64,7 @@ export class AuthService {
       },
       error: (e) => {
         console.log(e);
+        this.removeJWT();
       }
     });
 
