@@ -37,6 +37,23 @@ export class AuthService {
     return JSON.parse(localStorage.getItem("JWT") || "{}");
   }
 
+  isLoggedIn(): boolean {
+    const jwt = this.getJWT();
+
+    if (jwt.jwtToken == undefined) return false;
+
+    const curTime = new Date();
+    curTime.setMinutes(curTime.getMinutes() + 5);
+
+    const okTime = curTime.getTime()/1000;
+
+    console.log(okTime, jwt.expires);
+
+    if (okTime < jwt.expires) return true;
+
+    return false;
+  }
+
   checkLogIn(): void {
     const jwt = this.getJWT();
 
@@ -49,7 +66,8 @@ export class AuthService {
     console.log(okTime, jwt.expires);
 
     if (okTime < jwt.expires) {
-      this.router.navigate(['/']);
+      if (this.router.url != '/')
+        this.router.navigate(['/']);
     }
 
     console.log("refreshing token");
@@ -60,11 +78,11 @@ export class AuthService {
       next: (v) => {
         console.log(v);
         this.saveJWT(v.toString());
-        this.router.navigate(['/']);
+        if (this.router.url != '/')
+          this.router.navigate(['/']);
       },
       error: (e) => {
         console.log(e);
-        this.removeJWT();
       }
     });
 
