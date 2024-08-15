@@ -112,7 +112,7 @@ export class AuthService {
 
     const jwt = this.getJWT();
 
-    localStorage.removeItem("JWT");
+    this.removeJWT();
 
     const logOutRequest: RefreshTokenRequest = { refreshToken: jwt.refreshToken, username: jwt.user };
 
