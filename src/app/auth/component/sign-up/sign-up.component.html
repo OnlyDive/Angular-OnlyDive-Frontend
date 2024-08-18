@@ -1,25 +1,25 @@
 <h2 class="form-header">Sign-Up form</h2>
-<app-message *ngIf="showErrorAlert" color={{alertColor}} text={{alertText}} textColor="white"></app-message>
+<app-message *ngIf="messageInfo.enabled" color="{{messageInfo.color}}" text="{{messageInfo.text}}" textColor="{{messageInfo.textColor}}"></app-message>
 <form (ngSubmit)="onSubmit()">
     <div class="form-control">
         <label for="email">E-mail</label>
-        <input type="text" name="email" [(ngModel)]="email" id="email" placeholder="Add e-mail">
+        <input type="text" name="email" [(ngModel)]="signUpRequest.email" id="email" placeholder="Add e-mail">
     </div>
     <div class="form-control">
         <label for="username">Username</label>
-        <input type="text" name="username" [(ngModel)]="username" id="username" placeholder="Add username">
+        <input type="text" name="username" [(ngModel)]="signUpRequest.username" id="username" placeholder="Add username">
     </div>
     <div class="form-control">
         <label for="firstName">First name</label>
-        <input type="text" name="firstName" [(ngModel)]="firstName" id="firstName" placeholder="Add first name">
+        <input type="text" name="firstName" [(ngModel)]="signUpRequest.firstName" id="firstName" placeholder="Add first name">
     </div>
     <div class="form-control">
         <label for="lastName">Last name</label>
-        <input type="text" name="lastName" [(ngModel)]="lastName" id="lastName" placeholder="Add last name">
+        <input type="text" name="lastName" [(ngModel)]="signUpRequest.lastName" id="lastName" placeholder="Add last name">
     </div>
     <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" name="password" [(ngModel)]="password" id="password" placeholder="Add password">
+        <input type="password" name="password" [(ngModel)]="signUpRequest.password" id="password" placeholder="Add password">
     </div>
     <div class="form-control">
         <label for="repeatPassword">Repeat Password</label>
