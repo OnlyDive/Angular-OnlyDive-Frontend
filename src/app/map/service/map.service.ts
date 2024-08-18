@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import * as L from "leaflet";
 import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
 import {Subject} from "rxjs";
@@ -10,7 +10,8 @@ import {Spot} from "../../interface/spot";
 })
 export class MapService {
   private map!: L.Map;
-  private subject = new Subject<L.LatLng>();
+  private cordsSubject = new Subject<L.LatLng>();
+  spotClicked = new EventEmitter<number>();
 
   constructor() { }
 
@@ -24,7 +25,7 @@ export class MapService {
     }).addTo(this.map);
 
     this.map.on('click',
-      (e: L.LeafletMouseEvent) => this.subject.next(e.latlng)
+      (e: L.LeafletMouseEvent) => this.cordsSubject.next(e.latlng)
     )
   }
 
@@ -35,15 +36,15 @@ export class MapService {
   }
 
   onClick(){
-    return this.subject.asObservable();
+    return this.cordsSubject.asObservable();
   }
 
   addSpot(spot: Spot){
     const coordinates: L.LatLngExpression = [spot.latitude,spot.longitude];
     console.log(spot);
-    var marker = L.marker(coordinates).addTo(this.map);
+    const marker = L.marker(coordinates).addTo(this.map);
 
-    // marker.on('click', (e) =>
-    //   this.spotClicked.emit(spot));
+    marker.on('click', () =>
+      this.spotClicked.emit(spot.id));
   }
 }

@@ -14,4 +14,5 @@ import {Spot} from "../../../interface/spot";
 })
 export class ViewSpotComponent {
   @Input() spot!:Spot;
+
 }

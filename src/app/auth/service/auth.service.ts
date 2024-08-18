@@ -47,7 +47,7 @@ export class AuthService {
 
     const jwtTokenExpire = new Date(jwt.expires);
 
-    return curTime.getTime() < jwtTokenExpire.getTime();
+    return curTime.getTime()/1000 < jwtTokenExpire.getTime()/1000;
 
   }
 
@@ -60,7 +60,7 @@ export class AuthService {
     const jwtTokenExpire = new Date(jwt.expires);
 
 
-    if (curTime.getTime() < jwtTokenExpire.getTime()) {
+    if (curTime.getTime()/1000 < jwtTokenExpire.getTime()/1000) {
       if (this.router.url != '/')
         this.router.navigate(['/']);
     }

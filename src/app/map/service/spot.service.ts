@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Spot} from "../../interface/spot";
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-type': 'application/json',
-    'authorization': "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb2RvIiwiYXV0aG9yaXRpZXMiOltdLCJpYXQiOjE3MjM2MjIzNzksImV4cCI6MTcyMzc5NTE3OX0.qlWJtu2IUuGe9WivrJMkvdpbDzKg5_oGRYkXSUX9OM9nvWXUplJU3Hf4vNC_Cw74Fi9vCcL40EIicEl4QVc80g"
+    'Content-type': 'application/json'
   }),
   responseType: 'json' as 'json'
 }
@@ -29,6 +28,10 @@ export class SpotService {
 
   getAllSpots(){
     return this.http.get<Spot[]>(this.apiUrl + '/get/all',httpOptions);
+  }
+
+  getSpot(spotId:number){
+    return this.http.get<Spot>(this.apiUrl + `/get/${spotId}`,httpOptions);
   }
 
 }

@@ -1,5 +1,4 @@
 <div id="map">
-
   <div>
     <div *ngIf="menuSpotMode===MapSpotEnum.DEFAULT">
       <app-button right = "10px"
@@ -18,7 +17,7 @@
                 (btnClick)="toggleMenuMode(MapSpotEnum.DEFAULT)"/>
 
     <div *ngIf="menuSpotMode===MapSpotEnum.VIEW">
-      <app-view-spot [spot]=""></app-view-spot>
+      <app-view-spot [spot]="selectedSpot"></app-view-spot>
     </div>
 
   </div>
