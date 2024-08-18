@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MessageInfo } from './MessageInfo';
 
 @Component({
   selector: 'app-message',
@@ -12,4 +13,22 @@ export class MessageComponent {
   @Input() text!: string;
   @Input() color!: string;
   @Input() textColor: string = "black";
+
+  getDefaultErrorConfiguration(): MessageInfo {
+    return { 
+      color: "Crimson", 
+      text: "",
+      textColor: "white",
+      enabled: false
+    };
+  }
+
+  getDefaultMessageConfiguration(): MessageInfo {
+    return { 
+      color: "LightGreen", 
+      text: "",
+      textColor: "black",
+      enabled: false
+    }
+  }
 }

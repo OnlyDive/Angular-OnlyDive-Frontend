@@ -1,0 +1,8 @@
+<header>
+    <a id="home-redirector" routerLink="/"><h1>OnlyDive</h1></a>
+    <div id="div-buttons">
+        <app-header-button *ngIf="!isLoggedIn" text="Log In" (btnClick)="logIn()"></app-header-button>
+        <app-header-button *ngIf="!isLoggedIn" text="SignUp" (btnClick)="signUp()"></app-header-button>
+        <app-header-button *ngIf="isLoggedIn" text="Log Out" (btnClick)="logOut()"></app-header-button>
+    </div>
+</header>

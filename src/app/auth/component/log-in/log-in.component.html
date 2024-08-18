@@ -1,13 +1,13 @@
 <h2 class="form-header">Log-In form</h2>
-<app-message *ngIf="showSuccessfulSignupMessage" color="LightGreen" text="Sign Up completed, please check you email to activate the account"></app-message>
+<app-message *ngIf="messageInfo.enabled" color="{{messageInfo.color}}" text="{{messageInfo.text}}" textColor="{{messageInfo.textColor}}"></app-message>
 <form (ngSubmit)="onSubmit()">
     <div class="form-control">
         <label for="username">Username</label>
-        <input type="text" name="username" [(ngModel)]="username" id="username" placeholder="Add username">
+        <input type="text" name="username" [(ngModel)]="logInRequest.username" id="username" placeholder="Add username">
     </div>
     <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" name="password" [(ngModel)]="password" id="password" placeholder="Add password">
+        <input type="password" name="password" [(ngModel)]="logInRequest.password" id="password" placeholder="Add password">
     </div>
 
     <input type="submit" value="Log In" class="btn btn-block">
