@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageComponent } from '../../../tools/message/message.component';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { ErrorsService } from '../../../error/errors.service';
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css', '../../../styles/formStyles.css', '../../../styles/buttonStyles.css']
 })
-export class LogInComponent {
+export class LogInComponent implements OnInit{
   logInRequest: LogInRequest = { username:"", password:"" }
   messageInfo: MessageInfo;
 
@@ -39,11 +39,11 @@ export class LogInComponent {
   }
 
   onSubmit() {
+
     this.authService.logIn(this.logInRequest).subscribe({
       next: (v) => {
-        console.log(v);
 
-        this.authService.saveJWT(v.toString());
+        this.authService.saveJWT(v);
 
         this.router.navigate(['/'])
       },

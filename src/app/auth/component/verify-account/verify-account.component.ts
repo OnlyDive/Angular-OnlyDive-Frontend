@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
@@ -14,9 +14,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './verify-account.component.html',
   styleUrls: ['./verify-account.component.css', '../../../styles/formStyles.css', '../../../styles/buttonStyles.css']
 })
-export class VerifyAccountComponent {
+export class VerifyAccountComponent implements OnInit{
   verificationToken!: string
-  
+
   messageInfo: MessageInfo;
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private errorsService: ErrorsService) {
