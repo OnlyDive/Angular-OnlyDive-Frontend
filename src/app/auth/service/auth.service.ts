@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { SignUpRequest } from '../../interface/SignUpRequest';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogInRequest } from '../../interface/LogInRequest';
 import { RefreshTokenRequest } from '../../interface/RefreshTokenRequest';
 import { Router } from '@angular/router';
+import {AuthResponse} from "../../interface/AuthResponse";
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
-  }),
-  responseType: 'text' as 'json'
+  })
 };
 
 @Injectable({
@@ -19,22 +18,23 @@ const httpOptions = {
 export class AuthService {
   private apiUrl: string = 'http://localhost:8080/api/v1/auth'
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router) {
     if (!this.router.url.startsWith('/logOut') && !this.router.url.startsWith("/verifyAccount")) {
       this.checkLogIn();
     }
   }
 
-  saveJWT(jwt: string) {
-    localStorage.setItem("JWT", jwt);
+  saveJWT(jwt: AuthResponse) {
+    localStorage.setItem("JWT", JSON.stringify(jwt));
   }
 
   removeJWT() {
     localStorage.removeItem("JWT");
   }
 
-  getJWT(): any {
-    return JSON.parse(localStorage.getItem("JWT") || "{}");
+  getJWT() {
+    const auth:AuthResponse = JSON.parse(localStorage.getItem("JWT") || "{}");
+    return auth;
   }
 
   isLoggedIn(): boolean {
@@ -45,27 +45,22 @@ export class AuthService {
     const curTime = new Date();
     curTime.setMinutes(curTime.getMinutes() + 5);
 
-    const okTime = curTime.getTime()/1000;
+    const jwtTokenExpire = new Date(jwt.expires);
 
-    console.log(okTime, jwt.expires);
+    return curTime.getTime() < jwtTokenExpire.getTime();
 
-    if (okTime < jwt.expires) return true;
-
-    return false;
   }
 
   checkLogIn(): void {
     const jwt = this.getJWT();
-
     if (jwt.jwtToken == undefined) return;
 
     const curTime = new Date();
     curTime.setHours(curTime.getHours() + 1);
-    const okTime = curTime.getTime()/1000;
+    const jwtTokenExpire = new Date(jwt.expires);
 
-    console.log(okTime, jwt.expires);
 
-    if (okTime < jwt.expires) {
+    if (curTime.getTime() < jwtTokenExpire.getTime()) {
       if (this.router.url != '/')
         this.router.navigate(['/']);
     }
@@ -76,8 +71,7 @@ export class AuthService {
 
     this.refreshToken(refreshTokenRequest).subscribe({
       next: (v) => {
-        console.log(v);
-        this.saveJWT(v.toString());
+        this.saveJWT(v);
         if (this.router.url != '/')
           this.router.navigate(['/']);
       },
@@ -88,27 +82,27 @@ export class AuthService {
 
   }
 
-  refreshToken(refreshTokenRequest: RefreshTokenRequest): Observable<HttpResponse<any>> {
+  refreshToken(refreshTokenRequest: RefreshTokenRequest)  {
     const url = `${this.apiUrl}/refreshToken`;
-    return this.http.post<HttpResponse<any>>(url, refreshTokenRequest, httpOptions);
+    return this.http.post<AuthResponse>(url, refreshTokenRequest, httpOptions);
   }
 
-  signUp(signUpRequest: SignUpRequest): Observable<HttpResponse<any>> {
+  signUp(signUpRequest: SignUpRequest) {
     const url = `${this.apiUrl}/signUp`;
-    return this.http.post<HttpResponse<any>>(url, signUpRequest, httpOptions)
+    return this.http.post<string>(url, signUpRequest, httpOptions)
   }
 
-  logIn(logInRequest: LogInRequest): Observable<HttpResponse<any>> {
+  logIn(logInRequest: LogInRequest){
     const url = `${this.apiUrl}/logIn`;
-    return this.http.post<HttpResponse<any>>(url, logInRequest, httpOptions);
+    return this.http.post<AuthResponse>(url, logInRequest, httpOptions);
   }
 
-  verifyAccount(verificationToken: string): Observable<HttpResponse<any>> {
+  verifyAccount(verificationToken: string) {
     const url = `${this.apiUrl}/verifyAccount/${verificationToken}`;
-    return this.http.get<HttpResponse<any>>(url, httpOptions);
+    return this.http.get<string>(url, httpOptions);
   }
 
-  logOut(): Observable<HttpResponse<any>> {
+  logOut() {
 
     const jwt = this.getJWT();
 
@@ -117,7 +111,7 @@ export class AuthService {
     const logOutRequest: RefreshTokenRequest = { refreshToken: jwt.refreshToken, username: jwt.user };
 
     const url = `${this.apiUrl}/logOut`;
-    return this.http.post<HttpResponse<any>>(url, logOutRequest, httpOptions);
+    return this.http.post<string>(url, logOutRequest, httpOptions);
 
   }
 }
