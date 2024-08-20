@@ -6,10 +6,17 @@ import { RefreshTokenRequest } from '../../interface/RefreshTokenRequest';
 import { Router } from '@angular/router';
 import {AuthResponse} from "../../interface/AuthResponse";
 
-const httpOptions = {
+const httpOptionsForJSON = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
   })
+};
+
+const httpOptionsForSimple = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  }),
+  responseType: 'text' as 'json'
 };
 
 @Injectable({
@@ -84,22 +91,22 @@ export class AuthService {
 
   refreshToken(refreshTokenRequest: RefreshTokenRequest)  {
     const url = `${this.apiUrl}/refreshToken`;
-    return this.http.post<AuthResponse>(url, refreshTokenRequest, httpOptions);
+    return this.http.post<AuthResponse>(url, refreshTokenRequest, httpOptionsForJSON);
   }
 
   signUp(signUpRequest: SignUpRequest) {
     const url = `${this.apiUrl}/signUp`;
-    return this.http.post<string>(url, signUpRequest, httpOptions)
+    return this.http.post<String>(url, signUpRequest, httpOptionsForSimple)
   }
 
   logIn(logInRequest: LogInRequest){
     const url = `${this.apiUrl}/logIn`;
-    return this.http.post<AuthResponse>(url, logInRequest, httpOptions);
+    return this.http.post<AuthResponse>(url, logInRequest, httpOptionsForJSON);
   }
 
   verifyAccount(verificationToken: string) {
     const url = `${this.apiUrl}/verifyAccount/${verificationToken}`;
-    return this.http.get<string>(url, httpOptions);
+    return this.http.get<String>(url, httpOptionsForSimple);
   }
 
   logOut() {
@@ -111,7 +118,7 @@ export class AuthService {
     const logOutRequest: RefreshTokenRequest = { refreshToken: jwt.refreshToken, username: jwt.user };
 
     const url = `${this.apiUrl}/logOut`;
-    return this.http.post<string>(url, logOutRequest, httpOptions);
+    return this.http.post<String>(url, logOutRequest, httpOptionsForSimple);
 
   }
 }
