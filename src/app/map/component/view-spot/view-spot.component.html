@@ -1,3 +1,7 @@
-<form class="map-form">
-  <header>Create a new Spot!</header>
-</form>
+<div class="map-popUp">
+  <h1 class="spot-name">{{ spot.name }}</h1>
+  <h1 class="spot-name">{{ spot.creationDate }}</h1>
+ <!-- tutaj beda zdjecia
+      tutaj bedzie przyblizona lokalizacja-->
+  <button class="btn btn-block" (click)="openInGoogleMaps()">navigate</button>
+</div>

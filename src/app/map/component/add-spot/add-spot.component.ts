@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {Subscription} from "rxjs";
@@ -6,6 +6,7 @@ import {MapService} from "../../service/map.service";
 import {Spot} from "../../../interface/spot";
 import {UiService} from "../../service/ui.service";
 import {MapSpotEnum} from "../../../model/MapSpotEnum";
+import {AngularOnlyDiveExeption} from "../../../error/AngularOnlyDiveExeption";
 
 
 @Component({
@@ -16,18 +17,19 @@ import {MapSpotEnum} from "../../../model/MapSpotEnum";
     NgIf
   ],
   templateUrl: './add-spot.component.html',
-  styleUrl: './add-spot.component.css'
+  styleUrls: ['./add-spot.component.css','../../../styles/mapStyles.css','../../../styles/buttonStyles.css']
 })
-export class AddSpotComponent {
+export class AddSpotComponent implements OnInit{
   @Output() onAddSpot = new EventEmitter<Spot>();
-  spotRequest: Spot = {name:"",longitude:0,latitude:0,description:""};
+  spotRequest: Spot = {name:"",longitude:0,latitude:0};
   spotWasSelected:boolean = false;
-  subscriptionToSelectSpot: Subscription;
+  subscriptionToSelectSpot!: Subscription;
 
   constructor(private mapService:MapService,
-              private uiService:UiService) {
+              private uiService:UiService) {}
 
-    this.subscriptionToSelectSpot = mapService.onClick().subscribe(
+  ngOnInit(){
+    this.subscriptionToSelectSpot = this.mapService.onClick().subscribe(
       value => {
         this.spotRequest.latitude = value.lat;
         this.spotRequest.longitude = value.lng;
@@ -37,10 +39,10 @@ export class AddSpotComponent {
   }
 
   onSubmit() {
-    if (this.spotRequest.name == "" || !this.spotWasSelected){
-      alert("Please select properly");
-      return;
-    }
+    if (this.spotRequest.name == "" ||
+      !this.spotWasSelected)
+      throw new AngularOnlyDiveExeption("Info has not been selected properly")
+
 
     this.onAddSpot.emit(this.spotRequest);
     this.uiService.toggleMenuMode(MapSpotEnum.DEFAULT);

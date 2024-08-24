@@ -1,5 +1,5 @@
 
-<form class="map-form"
+<form class="map-popUp"
       (ngSubmit)="onSubmit()"
       (click)="$event.stopPropagation()">
   <header>Create a new Spot!</header>
@@ -12,15 +12,7 @@
            placeholder="Write Spot's name">
   </div>
   <div class="map-control">
-    <label for="description">Spot's name</label>
-    <input type="text"
-           name="description"
-           id="description"
-           [(ngModel)]="spotRequest.description"
-           placeholder="Write Spot's description">
-  </div>
-  <h3>Select Spot on the map</h3>
-  <div class="map-control">
+    <h3>Select Spot on the map</h3>
     <div class="map-control">
       <label for="latitude">Spot's latitude</label>
       <input type="text"

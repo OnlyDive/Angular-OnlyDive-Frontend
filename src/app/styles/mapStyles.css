@@ -1,5 +1,6 @@
-.map-form {
+.map-popUp {
   position: absolute;
+  overflow-y: auto;
   z-index: 1000;
   margin: 5px;
   right: 0;
@@ -11,10 +12,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.map-control {
-  margin: 20px 0;
-}
-
-.map-control label {
-  display: block;
+.map-popUp header {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
 }
