@@ -1,6 +1,6 @@
 .btn {
     display: inline-block;
-    background: #000;
+    background: #00329f;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -19,7 +19,7 @@
 .btn:active {
     transform: scale(0.98);
 }
-  
+
 .btn-block {
     display: block;
     width: 100%;

@@ -1,6 +1,6 @@
 button {
     background-color: transparent;
-    border: solid gray;
+    border: solid #0030af;
     border-width: 1px;
     padding: 3px 5px;
     cursor: pointer;

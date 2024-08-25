@@ -1,7 +1,41 @@
-<div class="map-popUp">
-  <h1 class="spot-name">{{ spot.name }}</h1>
-  <h1 class="spot-name">{{ spot.creationDate }}</h1>
+<div *ngIf="!isAddComment" class="map-popUp">
+
+  <div class="section">
+    <span class="spot-name">{{ spot.name }}</span>
+    <span class="spot-id">{{ "#" + spot.id }}</span>
+  </div>
+
  <!-- tutaj beda zdjecia
       tutaj bedzie przyblizona lokalizacja-->
-  <button class="btn btn-block" (click)="openInGoogleMaps()">navigate</button>
+  <button
+    class="btn comment-btn"
+    (click)="openInGoogleMaps()">
+    navigate
+  </button>
+
+  <div class="section">
+    <span class="spot-creator">{{ "Creator: " + spot.creatorUsername }}</span>
+    <span class="spot-date">{{ spot.creationDate | amTimeAgo }}</span>
+  </div>
+
+
+  <span class="comments">Comments:     {{ spot.commentCount }}</span>
+
+
+  <app-view-comments
+    *ngFor="let comment of spotComments"
+    [comment]="comment">
+  </app-view-comments>
+
+  <button *ngIf="isMoreCommentToLoad &&spot.commentCount!==0"
+          class="btn comment-btn"
+          (click)="loadComments()">
+    Load more
+  </button>
+
+  <button class="btn comment-btn" (click)="toggleCommentAdd()">
+    Add comment
+  </button>
 </div>
+
+<app-add-comment *ngIf="isAddComment" (onAddSpotComment)="addComment($event)"></app-add-comment>

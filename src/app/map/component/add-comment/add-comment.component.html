@@ -1,0 +1,26 @@
+
+<form class="map-popUp"
+      (ngSubmit)="onSubmit()"
+      (click)="$event.stopPropagation()">
+  <header>Create a new Comment!</header>
+  <div class="map-control">
+    <label for="name">Comment's name</label>
+    <input type="text"
+           name="name"
+           id="name"
+           [(ngModel)]="spotCommentRequest.name"
+           placeholder="Write comment's name">
+  </div>
+  <div class="map-control">
+    <h3>Select Spot on the map</h3>
+    <div class="map-control">
+      <label for="description">Comment's description</label>
+      <input type="text"
+             name="latitude"
+             id="description"
+             [(ngModel)]="spotCommentRequest.description"
+             placeholder="Write comment's description">
+    </div>
+  </div>
+  <input type="submit" value="Save comment" class="btn btn-block"/>
+</form>

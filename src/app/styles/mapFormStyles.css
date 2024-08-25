@@ -1,0 +1,38 @@
+.map-control {
+  margin: 10px 0;
+}
+
+.map-control label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: bold;
+  color: #555;
+}
+
+.map-control input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.map-control input[type="text"]:focus {
+  border-color: #015dc1;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 60, 122, 0.5);
+}
+
+h3 {
+  font-size: 1.2em;
+  color: #666;
+}
+
+
+
+input[readonly] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}

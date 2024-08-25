@@ -1,0 +1,9 @@
+<div class="comment-container">
+  <h2 class="comment-name">{{ comment?.name }}</h2>
+  <p class="comment-description">{{ comment?.description }}</p>
+  <div class="section">
+    <span class="comment-creator">By: {{ comment?.username }}</span>
+    <span class="comment-date">{{ comment?.creationDate | amTimeAgo }}</span>
+  </div>
+
+</div>

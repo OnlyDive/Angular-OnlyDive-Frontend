@@ -3,6 +3,7 @@ import { HeaderButtonComponent } from '../../tools/header-button/header-button.c
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/service/auth.service';
 import { NavigationStart, Router, RouterLink } from '@angular/router';
+import {MomentModule} from "ngx-moment";
 
 @Component({
   selector: 'app-header',
