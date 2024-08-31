@@ -1,50 +1,82 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import * as L from "leaflet";
-import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
 import {Subject} from "rxjs";
 import {Spot} from "../../interface/spot";
-
+import {AngularOnlyDiveExeption} from "../../error/AngularOnlyDiveExeption";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-  private map!: L.Map;
-  private cordsSubject = new Subject<L.LatLng>();
+  private map!:google.maps.Map;
+  private cordsSubject = new Subject<google.maps.LatLngLiteral>();
   spotClicked = new EventEmitter<number>();
+  private markers:any[] = []
 
-  constructor() { }
+  constructor() {}
 
-  initMap() : void{
-    this.map = L.map('map');
-    this.setMapCoordinates([52.5,21],13);
+  async initMap(){
+    const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
-    this.map.on('click',
-      (e: L.LeafletMouseEvent) => this.cordsSubject.next(e.latlng)
+    this.map = new Map(
+      document.getElementById('map') as HTMLElement,
+      {
+        zoom: 13,
+        center: {lat: 52.5,lng: 21},
+        mapId: 'DEMO_MAP_ID',
+        streetViewControl:false,
+        fullscreenControl:false,
+        mapTypeControl:false,
+        zoomControlOptions: {
+          position:google.maps.ControlPosition.TOP_LEFT
+        }
+      }
     )
-  }
 
-  setMapCoordinates(coordinates: L.LatLngExpression, zoomLevel? : number) : void{
-    if (this.map) {
-      this.map.setView(coordinates, zoomLevel || this.map.getZoom());
-    } else throw new AngularOnlyDiveExeption("map has not been init");
+    this.map.addListener('click',
+      (e: google.maps.MapMouseEvent) => {
+        if (e.latLng)
+          this.cordsSubject.next(e.latLng.toJSON())
+      }
+    )
   }
 
   onClick(){
     return this.cordsSubject.asObservable();
   }
 
-  addSpot(spot: Spot){
-    const coordinates: L.LatLngExpression = [spot.latitude,spot.longitude];
-    console.log(spot);
-    const marker = L.marker(coordinates).addTo(this.map);
+  async addSpot(spot: Spot){
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
 
-    marker.on('click', () =>
+    const coordinates: google.maps.LatLngLiteral  = {lat: spot.latitude,lng: spot.longitude};
+    const marker = new AdvancedMarkerElement({
+      map: this.map,
+      position: coordinates
+    })
+
+    marker.addListener('click', () =>
       this.spotClicked.emit(spot.id));
+
+    this.markers.push(marker);
+
+    return marker;
+  }
+
+  openInGoogleMaps(cords: google.maps.LatLngLiteral) {
+    const url = `https://www.google.com/maps?q=${cords.lat},${cords.lng}`;
+    window.open(url, '_blank');
+  }
+
+
+  removeSpot(spot: Spot) {
+    const marker = this.markers.find(
+      m=> m.position?.lat === spot.latitude &&
+        m.position?.lng === spot.longitude
+    )
+    if (!marker) throw new AngularOnlyDiveExeption("this spot is not on the map")
+
+    this.markers = this.markers.filter(m =>
+      m !== marker
+    )
+    marker.setMap(null)
   }
 }
