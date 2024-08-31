@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MessageComponent } from '../../../tools/message/message.component';
+import { MessageComponent } from '../../../component/message/message.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { LogInRequest } from '../../../interface/LogInRequest';
 import { AuthService } from '../../service/auth.service';
-import { MessageInfo } from '../../../tools/message/MessageInfo';
+import { MessageInfo } from '../../../component/message/MessageInfo';
 import { ErrorsService } from '../../../error/errors.service';
 
 @Component({
@@ -35,7 +35,6 @@ export class LogInComponent implements OnInit{
 
       console.log(`Redirected successfully with message "${this.messageInfo.text}"!`);
     }
-
   }
 
   onSubmit() {

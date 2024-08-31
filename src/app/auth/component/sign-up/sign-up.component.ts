@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { ErrorsService } from '../../../error/errors.service';
 import { SignUpRequest } from '../../../interface/SignUpRequest';
-import { MessageComponent } from '../../../tools/message/message.component';
+import { MessageComponent } from '../../../component/message/message.component';
 import { CommonModule } from '@angular/common';
-import { MessageInfo } from '../../../tools/message/MessageInfo';
+import { MessageInfo } from '../../../component/message/MessageInfo';
 
 @Component({
   selector: 'app-sign-up',

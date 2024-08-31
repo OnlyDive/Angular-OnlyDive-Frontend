@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
-import { MessageInfo } from '../../../tools/message/MessageInfo';
+import { MessageInfo } from '../../../component/message/MessageInfo';
 import { ErrorsService } from '../../../error/errors.service';
-import { MessageComponent } from '../../../tools/message/message.component';
+import { MessageComponent } from '../../../component/message/message.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
