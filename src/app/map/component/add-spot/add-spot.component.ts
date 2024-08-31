@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {Subscription} from "rxjs";
@@ -27,7 +27,8 @@ export class AddSpotComponent implements OnInit{
   subscriptionToSelectSpot!: Subscription;
 
   constructor(private mapService:MapService,
-              private uiService:UiService) {}
+              private uiService:UiService,
+              private cdr:ChangeDetectorRef) {}
 
   ngOnInit(){
     this.subscriptionToSelectSpot = this.mapService.onClick().subscribe(
@@ -35,6 +36,7 @@ export class AddSpotComponent implements OnInit{
         this.spotRequest.latitude = value.lat;
         this.spotRequest.longitude = value.lng;
         this.spotWasSelected = true;
+        this.cdr.detectChanges();
       }
     )
   }

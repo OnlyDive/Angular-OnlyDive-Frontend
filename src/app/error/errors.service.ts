@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { MessageInfo } from '../tools/message/MessageInfo';
+import { MessageInfo } from '../component/message/MessageInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,12 @@ export class ErrorsService {
 
       if (errorResponse.errors.length == 1)
         errorText = "Error: ";
-      
+
       errorText += errorResponse.errors.join(', ');
     } catch(ex) {
       console.log(ex);
       errorText = "Error: " + e.error;
-    } 
+    }
 
     var messageInfo: MessageInfo = {
       color: "Crimson",

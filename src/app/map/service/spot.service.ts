@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Spot} from "../../interface/spot";
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-type': 'application/json'
-  }),
-  responseType: 'json' as 'json'
-}
+import {httpOptionsForJSON} from "../../model/httpOptions";
 
 @Injectable({
   providedIn: 'root'
@@ -23,15 +17,19 @@ export class SpotService {
       longitude: spot.longitude,
       latitude: spot.latitude
     };
-    return this.http.post<Spot>(this.apiUrl + '/create',spotDto,httpOptions);
+    return this.http.post<Spot>(this.apiUrl + '/create',spotDto,httpOptionsForJSON);
   }
 
   getAllSpots(){
-    return this.http.get<Spot[]>(this.apiUrl + '/get/all',httpOptions);
+    return this.http.get<Spot[]>(this.apiUrl + '/get/all',httpOptionsForJSON);
   }
 
   getSpot(spotId:number){
-    return this.http.get<Spot>(this.apiUrl + `/get/${spotId}`,httpOptions);
+    return this.http.get<Spot>(this.apiUrl + `/get/${spotId}`,httpOptionsForJSON);
+  }
+
+  deleteSpot(spotId:number){
+    return this.http.delete<string>(this.apiUrl + `/delete/${spotId}`, )
   }
 
 }

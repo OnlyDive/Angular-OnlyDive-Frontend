@@ -1,4 +1,4 @@
-<div *ngIf="!isAddComment" class="map-popUp">
+<div *ngIf="!isAddComment && isDataLoaded" class="map-popUp">
 
   <div class="section">
     <span class="spot-name">{{ spot.name }}</span>
@@ -18,13 +18,12 @@
     <span class="spot-date">{{ spot.creationDate | amTimeAgo }}</span>
   </div>
 
-
   <span class="comments">Comments:     {{ spot.commentCount }}</span>
-
 
   <app-view-comments
     *ngFor="let comment of spotComments"
-    [comment]="comment">
+    [comment]="comment"
+    (deleteEmitter)="onDeletedComment($event)">
   </app-view-comments>
 
   <button *ngIf="isMoreCommentToLoad &&spot.commentCount!==0"
@@ -36,6 +35,8 @@
   <button class="btn comment-btn" (click)="toggleCommentAdd()">
     Add comment
   </button>
+  <button *ngIf="isUserPermittedToDelete" class="btn comment-btn btn-delete" (click)="deleteSpot()">delete spot</button>
 </div>
 
 <app-add-comment *ngIf="isAddComment" (onAddSpotComment)="addComment($event)"></app-add-comment>
+

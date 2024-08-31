@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient,} from "@angular/common/http";
 import {SpotComment} from "../../interface/SpotComment";
 import {Spot} from "../../interface/spot";
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-type': 'application/json'
-  }),
-  responseType: 'json' as 'json'
-}
+import {httpOptionsForJSON, httpOptionsForRaw} from "../../model/httpOptions";
 
 
 @Injectable({
@@ -21,10 +15,14 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   getCommentsForSpotByPage(page: number, spot:Spot) {
-    return this.http.get<SpotComment[]>(this.apiUrl + `/get/${spot.id}/${page}`,httpOptions)
+    return this.http.get<SpotComment[]>(this.apiUrl + `/get/${spot.id}/${page}`,httpOptionsForJSON)
   }
 
   createComment(comment: SpotComment) {
-    return this.http.post<SpotComment>(this.apiUrl + '/create', comment, httpOptions);
+    return this.http.post<SpotComment>(this.apiUrl + '/create', comment, httpOptionsForJSON);
+  }
+
+  deleteComment(commentId: number) {
+    return this.http.delete<string>(this.apiUrl + `/delete/${commentId}`,httpOptionsForRaw)
   }
 }
