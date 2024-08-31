@@ -1,13 +1,33 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Spot} from "../../../interface/spot";
-import {ButtonComponent} from "../../../tools/button/button.component";
 import {MomentModule} from "ngx-moment";
 import {SpotComment} from "../../../interface/SpotComment";
 import {ViewCommentsComponent} from "../view-comments/view-comments.component";
 import {CommentService} from "../../service/comment.service";
 import {AddCommentComponent} from "../add-comment/add-comment.component";
-import {NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {MapService} from "../../service/map.service";
+import {SpotService} from "../../service/spot.service";
+import {AuthService} from "../../../auth/service/auth.service";
+
+class CustomSet extends Set<SpotComment> {
+  override add(value: SpotComment): this {
+    if (!this.has(value))
+      super.add(value);
+
+    return this;
+  }
+
+  override has(value: SpotComment): boolean {
+    for (let item of this) {
+      if (item.id === value.id)
+        return true;
+    }
+
+      return false;
+  }
+}
 
 @Component({
   selector: 'app-view-spot',
@@ -15,37 +35,61 @@ import {NgForOf, NgIf} from "@angular/common";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    ButtonComponent,
     MomentModule,
     ViewCommentsComponent,
     AddCommentComponent,
     NgIf,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './view-spot.component.html',
   styleUrls: ['./view-spot.component.css','../../../styles/mapStyles.css','../../../styles/buttonStyles.css']
 })
-export class ViewSpotComponent{
-  @Input() spot!:Spot;
-  spotComments:SpotComment[] = [];
-  pageNumber:number = 1;
-  isAddComment:boolean = false;
-  isMoreCommentToLoad:boolean = true;
+export class ViewSpotComponent implements OnInit{
+  @Output() ondeleteSpotEmitter = new EventEmitter<Spot>();
+  spot!:Spot;
+  spotComments:Set<SpotComment> = new CustomSet();
+  pageNumber = 0;
+  isAddComment = false;
+  isMoreCommentToLoad = true;
+  isUserPermittedToDelete = false;
+  isDataLoaded = false;
 
-  constructor(private commentService: CommentService) {}
+  constructor(private commentService: CommentService,private mapService: MapService,
+              private spotService: SpotService, public authService: AuthService) {}
 
+  ngOnInit() {
+    this.authService.isCurrentUserPermitted(this.spot.creatorUsername).subscribe(
+      value => this.isUserPermittedToDelete = value
+    )
+  }
 
   openInGoogleMaps() {
-    const url = `https://www.google.com/maps?q=${this.spot.latitude},${this.spot.longitude}`;
-    window.open(url, '_blank');
+    const cords:google.maps.LatLngLiteral = {lat:this.spot.latitude, lng:this.spot.longitude};
+    this.mapService.openInGoogleMaps(cords)
+  }
+
+  @Input() set onSelectedSpot(spot:Spot) {
+    this.isDataLoaded = false;
+    this.spot = spot;
+    this.spotComments.clear();
+    this.isAddComment = false;
+    this.isMoreCommentToLoad = true;
+    this.pageNumber = 0;
+    this.authService.isCurrentUserPermitted(spot.creatorUsername).subscribe(
+      value => {
+        this.isUserPermittedToDelete = value
+        this.isDataLoaded = true;
+      }
+    )
   }
 
   loadComments() {
     this.commentService.getCommentsForSpotByPage(this.pageNumber,this.spot).subscribe(
       comments => {
-
-        this.spotComments = this.spotComments.concat(comments)
-        if (this.spotComments.length === this.spot.commentCount)
+        comments.forEach( c => this.spotComments.add(c))
+        console.log(this.pageNumber)
+        if (this.spotComments.size === this.spot.commentCount)
           this.isMoreCommentToLoad = false;
       }
     )
@@ -60,9 +104,20 @@ export class ViewSpotComponent{
     comment.spotId = this.spot.id;
 
     this.commentService.createComment(comment).subscribe(
-      comment => this.spotComments.push(comment)
+      comment => this.spotComments.add(comment)
     )
     this.spot.commentCount!++;
     this.toggleCommentAdd()
+  }
+
+  deleteSpot() {
+    this.spotService.deleteSpot(this.spot.id!).subscribe(
+      () => this.ondeleteSpotEmitter.emit(this.spot)
+    )
+  }
+
+  onDeletedComment(comment: SpotComment) {
+    this.spot.commentCount!--
+    this.spotComments.delete(comment)
   }
 }

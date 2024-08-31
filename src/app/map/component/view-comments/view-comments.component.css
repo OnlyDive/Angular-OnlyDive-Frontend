@@ -5,13 +5,14 @@
 }
 
 .comment-container {
-  max-width: 600px;
+  width: 90%;
   margin: 5px auto;
   padding: 10px;
   background-color: #f2feff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: 'Arial', sans-serif;
+  position: relative;
 }
 
 .comment-name {
@@ -34,4 +35,14 @@
   font-size: 10px;
   color: #252525;
   text-align: right;
+}
+
+.comment-container .btn-comment-delete{
+  background: none;
+  border: none;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  width: 10px;
+  height: 10px;
 }
