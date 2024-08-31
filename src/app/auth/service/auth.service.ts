@@ -1,23 +1,13 @@
 import { Injectable } from '@angular/core';
 import { SignUpRequest } from '../../interface/SignUpRequest';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { LogInRequest } from '../../interface/LogInRequest';
 import { RefreshTokenRequest } from '../../interface/RefreshTokenRequest';
 import { Router } from '@angular/router';
 import {AuthResponse} from "../../interface/AuthResponse";
-
-const httpOptionsForJSON = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
-
-const httpOptionsForSimple = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  }),
-  responseType: 'text' as 'json'
-};
+import {httpOptionsForRaw,httpOptionsForJSON} from "../../model/httpOptions";
+import {PermissionResponse} from "../../interface/PermissionResponse";
+import {firstValueFrom, map} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +86,7 @@ export class AuthService {
 
   signUp(signUpRequest: SignUpRequest) {
     const url = `${this.apiUrl}/signUp`;
-    return this.http.post<String>(url, signUpRequest, httpOptionsForSimple)
+    return this.http.post<String>(url, signUpRequest, httpOptionsForRaw)
   }
 
   logIn(logInRequest: LogInRequest){
@@ -106,7 +96,7 @@ export class AuthService {
 
   verifyAccount(verificationToken: string) {
     const url = `${this.apiUrl}/verifyAccount/${verificationToken}`;
-    return this.http.get<String>(url, httpOptionsForSimple);
+    return this.http.get<String>(url, httpOptionsForRaw);
   }
 
   logOut() {
@@ -118,7 +108,12 @@ export class AuthService {
     const logOutRequest: RefreshTokenRequest = { refreshToken: jwt.refreshToken, username: jwt.user };
 
     const url = `${this.apiUrl}/logOut`;
-    return this.http.post<String>(url, logOutRequest, httpOptionsForSimple);
+    return this.http.post<String>(url, logOutRequest, httpOptionsForRaw);
 
+  }
+
+  isCurrentUserPermitted(username = ''){
+    return this.http.get<PermissionResponse>(this.apiUrl+ '/getCurrentUserPermissions',httpOptionsForJSON).pipe(
+      map(perms => username === perms.username))
   }
 }
