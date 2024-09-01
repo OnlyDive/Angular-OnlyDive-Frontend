@@ -6,8 +6,8 @@ import { RefreshTokenRequest } from '../../interface/RefreshTokenRequest';
 import { Router } from '@angular/router';
 import {AuthResponse} from "../../interface/AuthResponse";
 import {httpOptionsForRaw,httpOptionsForJSON} from "../../model/httpOptions";
-import {PermissionResponse} from "../../interface/PermissionResponse";
-import {firstValueFrom, map} from "rxjs";
+import {Permission} from "../../interface/Permission";
+
 
 @Injectable({
   providedIn: 'root'
@@ -112,8 +112,9 @@ export class AuthService {
 
   }
 
-  isCurrentUserPermitted(username = ''){
-    return this.http.get<PermissionResponse>(this.apiUrl+ '/getCurrentUserPermissions',httpOptionsForJSON).pipe(
-      map(perms => username === perms.username))
+  isCurrentUserPermitted(permissionRequest :Permission ){
+    if (!permissionRequest.username)
+      permissionRequest.username = ''
+    return this.http.post<Boolean>(this.apiUrl + '/getCurrentUserPermissions',permissionRequest,httpOptionsForJSON);
   }
 }

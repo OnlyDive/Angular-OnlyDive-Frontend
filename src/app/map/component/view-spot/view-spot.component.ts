@@ -10,6 +10,7 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MapService} from "../../service/map.service";
 import {SpotService} from "../../service/spot.service";
 import {AuthService} from "../../../auth/service/auth.service";
+import {Permission} from "../../../interface/Permission";
 
 class CustomSet extends Set<SpotComment> {
   override add(value: SpotComment): this {
@@ -45,7 +46,7 @@ class CustomSet extends Set<SpotComment> {
   templateUrl: './view-spot.component.html',
   styleUrls: ['./view-spot.component.css','../../../styles/mapStyles.css','../../../styles/buttonStyles.css']
 })
-export class ViewSpotComponent implements OnInit{
+export class ViewSpotComponent{
   @Output() ondeleteSpotEmitter = new EventEmitter<Spot>();
   spot!:Spot;
   spotComments:Set<SpotComment> = new CustomSet();
@@ -58,11 +59,6 @@ export class ViewSpotComponent implements OnInit{
   constructor(private commentService: CommentService,private mapService: MapService,
               private spotService: SpotService, public authService: AuthService) {}
 
-  ngOnInit() {
-    this.authService.isCurrentUserPermitted(this.spot.creatorUsername).subscribe(
-      value => this.isUserPermittedToDelete = value
-    )
-  }
 
   openInGoogleMaps() {
     const cords:google.maps.LatLngLiteral = {lat:this.spot.latitude, lng:this.spot.longitude};
@@ -76,9 +72,10 @@ export class ViewSpotComponent implements OnInit{
     this.isAddComment = false;
     this.isMoreCommentToLoad = true;
     this.pageNumber = 0;
-    this.authService.isCurrentUserPermitted(spot.creatorUsername).subscribe(
+    const permission:Permission = {username:spot.creatorUsername}
+    this.authService.isCurrentUserPermitted(permission).subscribe(
       value => {
-        this.isUserPermittedToDelete = value
+        this.isUserPermittedToDelete = value.valueOf();
         this.isDataLoaded = true;
       }
     )
