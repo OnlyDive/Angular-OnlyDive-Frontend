@@ -8,6 +8,9 @@ export const customInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
+  if(req.url.includes('maps.googleapis.com'))
+    return next(req);
+
   const clonedRequest = req.clone({
     setHeaders: {
       Authorization: `Bearer ${jwt.jwtToken}`
