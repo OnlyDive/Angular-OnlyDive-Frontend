@@ -22,7 +22,7 @@ export class MapService {
       {
         zoom: 13,
         center: {lat: 52.5,lng: 21},
-        mapId: 'DEMO_MAP_ID',
+        mapId: '88e0fe89bab80243',
         streetViewControl:false,
         fullscreenControl:false,
         mapTypeControl:false,
@@ -59,11 +59,6 @@ export class MapService {
     this.markers.push(marker);
 
     return marker;
-  }
-
-  openInGoogleMaps(cords: google.maps.LatLngLiteral) {
-    const url = `https://www.google.com/maps?q=${cords.lat},${cords.lng}`;
-    window.open(url, '_blank');
   }
 
 
