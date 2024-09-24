@@ -27,7 +27,7 @@ export class ErrorsService {
     }
 
     var messageInfo: MessageInfo = {
-      color: "Crimson",
+      color: "red",
       text: errorText,
       textColor: "white",
       enabled: true
