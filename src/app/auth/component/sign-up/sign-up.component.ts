@@ -6,13 +6,13 @@ import { AuthService } from '../../service/auth.service';
 import { ErrorsService } from '../../../error/errors.service';
 import { SignUpRequest } from '../../../interface/SignUpRequest';
 import { MessageComponent } from '../../../component/message/message.component';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { MessageInfo } from '../../../component/message/MessageInfo';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ CommonModule, FormsModule, MessageComponent ],
+    imports: [CommonModule, FormsModule, MessageComponent, NgOptimizedImage],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css', '../../../styles/formStyles.css', '../../../styles/buttonStyles.css'],
 })

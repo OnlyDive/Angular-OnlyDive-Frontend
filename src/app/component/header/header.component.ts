@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/service/auth.service';
 import { NavigationStart, Router, RouterLink } from '@angular/router';
@@ -11,7 +11,7 @@ import { NavigationStart, Router, RouterLink } from '@angular/router';
   styleUrls: ['./header.component.css','../../styles/buttonStyles.css']
 })
 export class HeaderComponent {
-
+  @ViewChild('sidebarCheckbox') sidebarCheckbox!: ElementRef;
   isLoggedIn: boolean;
 
   constructor(private authService: AuthService, private router: Router) {
@@ -24,15 +24,26 @@ export class HeaderComponent {
     })
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    const target = event.target as Window;
+    if (target.innerWidth > 600 && this.sidebarCheckbox)
+      this.sidebarCheckbox.nativeElement.checked = false;
+
+  }
+
   logOut() {
+    this.sidebarCheckbox.nativeElement.checked = false;
     this.router.navigate(['/logOut']);
   }
 
   logIn() {
+    this.sidebarCheckbox.nativeElement.checked = false;
     this.router.navigate(['/logIn']);
   }
 
   signUp() {
+    this.sidebarCheckbox.nativeElement.checked = false;
     this.router.navigate(['/signUp']);
   }
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageComponent } from '../../../component/message/message.component';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { Router } from '@angular/router';
 
 import { LogInRequest } from '../../../interface/LogInRequest';
@@ -12,7 +12,7 @@ import { ErrorsService } from '../../../error/errors.service';
 @Component({
   selector: 'app-log-in',
   standalone: true,
-  imports: [ CommonModule, FormsModule, MessageComponent ],
+  imports: [CommonModule, FormsModule, MessageComponent, NgOptimizedImage],
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css', '../../../styles/formStyles.css', '../../../styles/buttonStyles.css']
 })
