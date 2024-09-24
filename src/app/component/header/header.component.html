@@ -1,8 +1,23 @@
 <header>
-    <a id="home-redirector" routerLink="/"><h1>OnlyDive</h1></a>
-    <div id="div-buttons">
-        <button class="btn" *ngIf="!isLoggedIn" (click)="logIn()">Log In</button>
-        <button class="btn" *ngIf="!isLoggedIn" (click)="signUp()">SignUp</button>
-        <button class="btn" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
-    </div>
+
+  <a id="home-redirector" routerLink="/">
+    <h1>OnlyDive</h1>
+  </a>
+  <input type="checkbox" id="sidebar-active" #sidebarCheckbox/>
+
+  <label for="sidebar-active">
+    <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#e8eaed"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+  </label>
+
+  <label for="sidebar-active" id="overlay"></label>
+
+  <div id="div-buttons">
+    <label for="sidebar-active">
+      <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#e8eaed"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+     </label>
+    <button class="Nav-btn" *ngIf="!isLoggedIn" (click)="logIn()">Log In</button>
+    <button class="Nav-btn" *ngIf="!isLoggedIn" (click)="signUp()">Sign Up</button>
+    <button class="Nav-btn" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
+  </div>
+
 </header>

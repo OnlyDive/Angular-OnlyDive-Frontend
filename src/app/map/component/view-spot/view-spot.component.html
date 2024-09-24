@@ -1,6 +1,6 @@
-<div *ngIf="!isAddComment && isDataLoaded" class="map-popUp">
+<div *ngIf="!isAddComment" class="map-popUp">
 
-  <div class="section">
+  <div>
     <span class="spot-name">{{ spot.name }}</span>
     <span class="spot-id">{{ "#" + spot.id }}</span>
   </div>
@@ -9,18 +9,17 @@
       tutaj bedzie przyblizona lokalizacja-->
   <span>{{location}}</span>
   <button
-    class="btn comment-btn"
     (click)="openInGoogleMaps()">
     navigate
   </button>
 
-  <div class="section">
-    <span class="spot-creator">{{ "Creator: " + spot.creatorUsername }}</span>
-    <span class="spot-date">{{ spot.creationDate | amTimeAgo }}</span>
+  <div>
+    <span>{{ "Creator: " + spot.creatorUsername }}</span>
+    <span>{{ spot.creationDate | amTimeAgo }}</span>
   </div>
   <hr/>
 
-  <span class="comments">Comments:     {{ spot.commentCount }}</span>
+  <span>Comments:     {{ spot.commentCount }}</span>
 
   <app-view-comments
     *ngFor="let comment of spotComments"
@@ -29,15 +28,15 @@
   </app-view-comments>
 
   <button *ngIf="isMoreCommentToLoad &&spot.commentCount!==0"
-          class="btn comment-btn"
+
           (click)="loadComments()">
     Load more
   </button>
 
-  <button class="btn comment-btn" (click)="toggleCommentAdd()">
+  <button (click)="toggleCommentAdd()">
     Add comment
   </button>
-  <button *ngIf="isUserPermittedToDelete" class="btn comment-btn btn-delete" (click)="deleteSpot()">delete spot</button>
+  <button *ngIf="isUserPermittedToDelete" (click)="deleteSpot()">delete spot</button>
 </div>
 
 <app-add-comment *ngIf="isAddComment" (onAddSpotComment)="addComment($event)"></app-add-comment>

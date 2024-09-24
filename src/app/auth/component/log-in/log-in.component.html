@@ -1,14 +1,28 @@
-<h2 class="form-header">Log-In form</h2>
-<app-message *ngIf="messageInfo.enabled" color="{{messageInfo.color}}" text="{{messageInfo.text}}" textColor="{{messageInfo.textColor}}"></app-message>
-<form (ngSubmit)="onSubmit()">
-    <div class="form-control">
-        <label for="username">Username</label>
-        <input type="text" name="username" [(ngModel)]="logInRequest.username" id="username" placeholder="Add username">
+<body>
+    <div id="flex-wrapper">
+        <h2>Log-In form</h2>
+        <app-message *ngIf="messageInfo.enabled" color="{{messageInfo.color}}" text="{{messageInfo.text}}" textColor="{{messageInfo.textColor}}"></app-message>
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-control">
+                <label for="username">Username</label>
+                <input type="text" name="username" [(ngModel)]="logInRequest.username" id="username" placeholder="Write Username">
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" [(ngModel)]="logInRequest.password" id="password" placeholder="Write password">
+            </div>
+            <input type="submit" value="Log In" class="btn btn-block">
+        </form>
     </div>
-    <div class="form-control">
-        <label for="password">Password</label>
-        <input type="password" name="password" [(ngModel)]="logInRequest.password" id="password" placeholder="Add password">
+    <div id="image-wrapper">
+      <header>
+        <h1>Welcome Back!<br/> Diver!</h1>
+        <p>Jakis randomomy tekst ktory sie kiedys uzupelni o tym jak to warto sie zalogowac i co czeka bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</p>
+      </header>
+      <div class="grid-wrapper">
+        <img style="grid-area: box1" ngSrc="/rafa.jpg" alt="rafa" height="1024" width="1024"/>
+        <img style="grid-area: box2" ngSrc="/rekin.jpg" alt="rekin" height="1024" width="1024"/>
+        <img style="grid-area: box3" ngSrc="/boat.jpg" alt="boat" height="1024" width="1024"/>
+      </div>
     </div>
-
-    <input type="submit" value="Log In" class="btn btn-block">
-</form>
+</body>
