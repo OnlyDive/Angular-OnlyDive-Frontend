@@ -1,11 +1,90 @@
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  position: fixed;
+  z-index: 10;
+  justify-content: end;
+  background-color: var(--color-rich-black);
+  width: 100vw;
+  height: var(--nav-size);
+  box-shadow: 0 5px 5px rgba(0,0,0,0.3);
+}
+
+input,label{
+  display: none;
+  cursor: pointer;
+}
+
+#div-buttons{
+  display: flex;
+  min-height: 100%;
+}
+
+.Nav-btn{
+  height: 100%;
+  padding: 0 1rem;
+  font-size: 1rem;
+  display: flex;
+  background: none;
+  border: none;
+  color: var(--color-platinium);
+  align-items: center;
+  cursor: pointer;
+
+  &:hover{
+    background-color: var(--color-oxford-blue);
+  }
 }
 
 a {
-    text-decoration: none !important;
-    color: inherit !important;
+  margin-right: auto;
+  padding: 0.5rem;
+  text-decoration: none !important;
+  color: var(--color-platinium) !important;
+}
+
+@media (max-width: 600px){
+  #div-buttons{
+    flex-direction: column;
+
+    position: fixed;
+    top: 0;
+    right: -100%;
+
+    z-index: 1;
+    width: 200px;
+
+    background-color: var(--color-rich-black);
+    box-shadow: -5px 0 5px rgba(0,0,0,0.3);
+    transition: .5s right ease-out;
+  }
+
+  .Nav-btn{
+    box-sizing: border-box;
+    padding: 20px 30px;
+  }
+
+  label:not(#overlay){
+    display: block;
+    padding: 1rem;
+    margin-right: 10px;
+  }
+
+  input:checked ~ #div-buttons{
+    right: 0;
+  }
+
+  input:checked ~ #overlay{
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 350px) {
+  #div-buttons {
+    width: 100%;
+  }
 }
