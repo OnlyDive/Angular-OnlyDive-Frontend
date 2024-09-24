@@ -17,7 +17,7 @@ import {AngularOnlyDiveExeption} from "../../../error/AngularOnlyDiveExeption";
     NgIf
   ],
   templateUrl: './add-spot.component.html',
-  styleUrls: ['./add-spot.component.css','../../../styles/mapStyles.css','../../../styles/buttonStyles.css',
+  styleUrls: ['./add-spot.component.css','../../../styles/map-popUp.css','../../../styles/buttonStyles.css',
   '../../../styles/mapFormStyles.css']
 })
 export class AddSpotComponent implements OnInit{

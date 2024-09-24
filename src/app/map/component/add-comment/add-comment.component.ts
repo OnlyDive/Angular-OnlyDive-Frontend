@@ -12,7 +12,7 @@ import {AngularOnlyDiveExeption} from "../../../error/AngularOnlyDiveExeption";
         ReactiveFormsModule
     ],
   templateUrl: './add-comment.component.html',
-  styleUrls: ['./add-comment.component.css','../../../styles/mapStyles.css','../../../styles/mapFormStyles.css',
+  styleUrls: ['./add-comment.component.css','../../../styles/map-popUp.css','../../../styles/mapFormStyles.css',
   '../../../styles/buttonStyles.css']
 })
 export class AddCommentComponent{

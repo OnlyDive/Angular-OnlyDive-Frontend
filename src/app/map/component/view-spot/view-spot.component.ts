@@ -45,7 +45,7 @@ class CustomSet extends Set<SpotComment> {
     AsyncPipe
   ],
   templateUrl: './view-spot.component.html',
-  styleUrls: ['./view-spot.component.css','../../../styles/mapStyles.css','../../../styles/buttonStyles.css']
+  styleUrls: ['./view-spot.component.css','../../../styles/map-popUp.css','../../../styles/buttonStyles.css']
 })
 export class ViewSpotComponent {
   @Output() ondeleteSpotEmitter = new EventEmitter<Spot>();
@@ -55,7 +55,6 @@ export class ViewSpotComponent {
   isAddComment = false;
   isMoreCommentToLoad = true;
   isUserPermittedToDelete = false;
-  isDataLoaded = false;
   location = '';
 
   constructor(private commentService: CommentService, private mapService: MapService,
@@ -65,14 +64,13 @@ export class ViewSpotComponent {
 
 
   @Input() set onSelectedSpot(spot: Spot) {
-    this.isDataLoaded = false;
     this.spot = spot;
     this.spotComments.clear();
     this.isAddComment = false;
     this.isMoreCommentToLoad = true;
     this.pageNumber = 0;
-    this.isUserPermitted()
     this.getApproximateLocation()
+    this.isUserPermitted()
   }
 
   loadComments() {
@@ -120,10 +118,8 @@ export class ViewSpotComponent {
   isUserPermitted(){
     const permission: Permission = {username: this.spot.creatorUsername}
     this.authService.isCurrentUserPermitted(permission).subscribe(
-      value => {
-        this.isUserPermittedToDelete = value.valueOf();
-        this.isDataLoaded = true;
-      }
+      value =>
+        this.isUserPermittedToDelete = value.valueOf()
     )
   }
 
