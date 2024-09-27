@@ -16,3 +16,8 @@
 .btn:active{
   border-color: var(--color-rich-black);
 }
+
+.btn-delete{
+  background-color: var(--color-alert);
+  color: var(--color-rich-black);
+}

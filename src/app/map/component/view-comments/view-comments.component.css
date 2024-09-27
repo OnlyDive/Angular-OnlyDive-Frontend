@@ -1,0 +1,55 @@
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
+  margin: 5px auto;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--color-chambray);
+  box-shadow:  0 0 5px 0 black;
+}
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--color-silver-lake);
+}
+
+header h1{
+  font-size: 1.1rem;
+  color: var(--color-platinium);
+}
+
+body button{
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  align-self: flex-start;
+}
+
+body > textarea{
+  color: var(--color-platinium);
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 0.8em;
+}
+
+#creation{
+  width: 100%;
+  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+#creation h1{
+  color: var(--color-silver-lake);
+  font-size: 0.6rem;
+  padding: 5px;
+}
