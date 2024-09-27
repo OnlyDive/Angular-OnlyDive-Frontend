@@ -1,4 +1,3 @@
-
 <form class="map-popUp"
       (ngSubmit)="onSubmit()"
       (click)="$event.stopPropagation()">
@@ -9,18 +8,23 @@
            name="name"
            id="name"
            [(ngModel)]="spotCommentRequest.name"
-           placeholder="Write comment's name">
+           placeholder="Write comment's name"
+           required>
   </div>
   <div class="map-control">
-    <h3>Select Spot on the map</h3>
     <div class="map-control">
       <label for="description">Comment's description</label>
-      <input type="text"
-             name="latitude"
+      <textarea
+             name="comment"
              id="description"
              [(ngModel)]="spotCommentRequest.description"
-             placeholder="Write comment's description">
+             wrap="soft"
+             placeholder="Write comment's description"
+             rows="1"
+             (input)="TextAreaAutoResize($event)"
+             required></textarea>
     </div>
   </div>
   <input type="submit" value="Save comment" class="btn btn-block"/>
 </form>
+

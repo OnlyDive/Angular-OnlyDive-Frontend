@@ -4,17 +4,17 @@
       (click)="$event.stopPropagation()">
   <header>Create a new Spot!</header>
   <div class="map-control">
-    <label for="name">Spot's name</label>
+    <label for="name">name</label>
     <input type="text"
            name="name"
            id="name"
            [(ngModel)]="spotRequest.name"
-           placeholder="Write Spot's name">
+           placeholder="Spot's name">
   </div>
-  <div class="map-control">
-    <h3>Select Spot on the map</h3>
+  <h3>Select Spot on the map</h3>
+  <div class="latlng-wrapper">
     <div class="map-control">
-      <label for="latitude">Spot's latitude</label>
+      <label for="latitude">latitude</label>
       <input type="text"
              name="latitude"
              id="latitude"
@@ -22,7 +22,7 @@
               readonly>
     </div>
     <div class="map-control">
-      <label for="longitude">Spot's latitude</label>
+      <label for="longitude">latitude</label>
       <input type="text"
              name="longitude"
              id="longitude"
