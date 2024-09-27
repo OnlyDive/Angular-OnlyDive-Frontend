@@ -22,7 +22,7 @@ export class MapService {
       {
         zoom: 13,
         center: {lat: 52.5,lng: 21},
-        mapId: '88e0fe89bab80243',
+        mapId: '88e0fe89bab80243', //zmienic
         streetViewControl:false,
         fullscreenControl:false,
         mapTypeControl:false,
