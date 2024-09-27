@@ -8,14 +8,12 @@
   --color-silver-lake: #74BCAB;
   --color-platinium: #ecede9;
   --nav-size:70px;
+  --color-alert: #ff0000;
 }
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html {
   font-size: 16pt;
   font-family: 'Calibri', sans-serif;
 }
@@ -27,4 +25,10 @@ html {
   min-height: 300px;
   border-radius: 5px;
   padding: var(--nav-size) 30px 30px;
+}
+
+textarea{
+  resize:none;
+  max-height: 100%;
+  overflow-y: hidden;
 }
