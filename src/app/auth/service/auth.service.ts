@@ -74,6 +74,8 @@ export class AuthService {
       },
       error: (e) => {
         console.log(e);
+        this.logOut();
+        window.location.reload();
       }
     });
 
