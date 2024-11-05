@@ -17,6 +17,7 @@
      </label>
     <button class="Nav-btn" *ngIf="!isLoggedIn" (click)="logIn()">Log In</button>
     <button class="Nav-btn" *ngIf="!isLoggedIn" (click)="signUp()">Sign Up</button>
+    <button class="Nav-btn" *ngIf="isLoggedIn" (click)="showProfile()">Profile</button>
     <button class="Nav-btn" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
   </div>
 

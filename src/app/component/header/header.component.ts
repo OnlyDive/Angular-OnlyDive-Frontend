@@ -32,6 +32,11 @@ export class HeaderComponent {
 
   }
 
+  showProfile() {
+    this.sidebarCheckbox.nativeElement.checked = false;
+    this.router.navigate(['/profile']);
+  }
+
   logOut() {
     this.sidebarCheckbox.nativeElement.checked = false;
     this.router.navigate(['/logOut']);
