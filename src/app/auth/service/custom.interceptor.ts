@@ -8,7 +8,7 @@ import { catchError, switchMap } from 'rxjs/operators'
 
 export const customInterceptor: HttpInterceptorFn = (req, next) => {
 
-  if(req.url.includes('maps.googleapis.com') || req.url.includes('auth'))
+  if(req.url.includes('maps.googleapis.com') || (!req.url.includes("Permissions") && req.url.includes('auth')))
     return next(req);
 
   const authService = inject(AuthService);

@@ -23,7 +23,7 @@ export class ErrorsService {
       errorText += errorResponse.errors.join(', ');
     } catch(ex) {
       console.log(ex);
-      errorText = "Error: " + e.error;
+      errorText = "Error: " + e.error.errors.join(', ');
     }
 
     var messageInfo: MessageInfo = {
