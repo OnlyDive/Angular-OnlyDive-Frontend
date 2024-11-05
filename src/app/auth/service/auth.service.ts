@@ -16,7 +16,7 @@ export class AuthService {
   private apiUrl: string = 'http://localhost:8080/api/v1/auth'
 
   constructor(private http: HttpClient, private router: Router) {
-    if (!this.router.url.startsWith('/logOut') && !this.router.url.startsWith("/verifyAccount")) {
+    if (!this.router.url.startsWith('/logOut') && !this.router.url.startsWith("/verifyAccount") && !this.isLoggedIn()) {
       this.checkLogIn();
     }
   }
@@ -32,6 +32,14 @@ export class AuthService {
   getJWT() {
     const auth:AuthResponse = JSON.parse(localStorage.getItem("JWT") || "{}");
     return auth;
+  }
+
+  getUsername() {
+    const JWT = this.getJWT();
+    if (JWT.user === undefined) {
+      throw Error("JWT user does not exist");
+    }
+    return JWT.user;
   }
 
   isLoggedIn(): boolean {

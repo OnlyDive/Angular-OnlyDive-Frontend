@@ -12,5 +12,5 @@ export const routes: Routes = [
     { path: 'logIn', component: LogInComponent},
     { path: 'verifyAccount/:verificationToken', component: VerifyAccountComponent },
     { path: 'logOut', component: LogOutComponent },
-    { path: 'profile', component: UserProfileComponent }
+    { path: 'profile/:username', component: UserProfileComponent }
 ];
