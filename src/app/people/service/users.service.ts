@@ -12,7 +12,7 @@ export class UsersService {
   constructor(private http: HttpClient) {}
 
   fetchUser(username: string) {
-    const url = `${this.apiUrl}/${username}`;
+    const url = `${this.apiUrl}/by-username/${username}`;
     return this.http.get<UserResponse>(url, httpOptionsForJSON)
   }
 
