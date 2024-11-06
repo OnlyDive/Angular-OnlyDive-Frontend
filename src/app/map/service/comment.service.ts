@@ -15,7 +15,7 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   getCommentsForSpotByPage(page: number, spot:Spot) {
-    return this.http.get<SpotComment[]>(this.apiUrl + `/get/${spot.id}/${page}`,httpOptionsForJSON)
+    return this.http.get<SpotComment[]>(this.apiUrl + `/get/${spot.uuid}/${page}`,httpOptionsForJSON)
   }
 
   createComment(comment: SpotComment) {

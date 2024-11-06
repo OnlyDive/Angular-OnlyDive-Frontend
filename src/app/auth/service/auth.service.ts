@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SignUpRequest } from '../../interface/SignUpRequest';
 import { HttpClient } from '@angular/common/http';
-import { LogInRequest } from '../../interface/LogInRequest';
+import { LogInDto } from '../../interface/LogInDto';
 import { RefreshTokenRequest } from '../../interface/RefreshTokenRequest';
 import { Router } from '@angular/router';
 import {AuthResponse} from "../../interface/AuthResponse";
@@ -99,9 +99,9 @@ export class AuthService {
     return this.http.post<String>(url, signUpRequest, httpOptionsForRaw)
   }
 
-  logIn(logInRequest: LogInRequest){
+  logIn(logInDto: LogInDto){
     const url = `${this.apiUrl}/logIn`;
-    return this.http.post<AuthResponse>(url, logInRequest, httpOptionsForJSON);
+    return this.http.post<AuthResponse>(url, logInDto, httpOptionsForJSON);
   }
 
   verifyAccount(verificationToken: string) {

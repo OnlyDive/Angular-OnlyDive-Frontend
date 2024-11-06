@@ -1,6 +1,6 @@
 
 export interface Spot{
-  id?:number;
+  uuid?:number;
   name:string;
   latitude:number;
   longitude:number;

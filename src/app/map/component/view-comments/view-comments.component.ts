@@ -44,7 +44,7 @@ export class ViewCommentsComponent implements OnInit,AfterViewInit{
   }
 
   deleteComment(){
-    this.commentService.deleteComment(this.comment!.id!).subscribe(
+    this.commentService.deleteComment(this.comment!.uuid!).subscribe(
       () => this.deleteEmitter.emit(this.comment)
     );
   }
