@@ -4,7 +4,7 @@ import { MessageComponent } from '../../../component/message/message.component';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { Router } from '@angular/router';
 
-import { LogInRequest } from '../../../interface/LogInRequest';
+import { LogInDto } from '../../../interface/LogInDto';
 import { AuthService } from '../../service/auth.service';
 import { MessageInfo } from '../../../component/message/MessageInfo';
 import { ErrorsService } from '../../../error/errors.service';
@@ -17,7 +17,7 @@ import { ErrorsService } from '../../../error/errors.service';
   styleUrls: ['./log-in.component.css', '../../../styles/formStyles.css', '../../../styles/buttonStyles.css']
 })
 export class LogInComponent implements OnInit{
-  logInRequest: LogInRequest = { username:"", password:"" }
+  logInRequest: LogInDto = { username:"", password:"" }
   messageInfo: MessageInfo;
 
   constructor(private router: Router, private authService: AuthService, private errorsService: ErrorsService) {
@@ -38,10 +38,8 @@ export class LogInComponent implements OnInit{
   }
 
   onSubmit() {
-
     this.authService.logIn(this.logInRequest).subscribe({
       next: (v) => {
-
         this.authService.saveJWT(v);
 
         this.router.navigate(['/'])

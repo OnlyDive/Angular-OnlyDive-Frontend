@@ -18,7 +18,7 @@ import {TextAreaAutoResizeService} from "../../../HtmlDynamicServices/text-area-
 })
 export class AddCommentComponent{
   @Output() onAddSpotComment = new EventEmitter<SpotComment>();
-  spotCommentRequest: SpotComment = {name:"",description:""};
+  spotCommentRequest: SpotComment = {images: [], name:"",description:""};
 
   constructor(private autoResize: TextAreaAutoResizeService) {}
 

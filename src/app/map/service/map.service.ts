@@ -54,7 +54,7 @@ export class MapService {
     })
 
     marker.addListener('click', () =>
-      this.spotClicked.emit(spot.id));
+      this.spotClicked.emit(spot.uuid));
 
     this.markers.push(marker);
 

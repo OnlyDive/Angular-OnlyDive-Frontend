@@ -1,9 +1,11 @@
+import {Images} from "./Images";
 
 export interface SpotComment{
-  id? : number;
+  uuid? : number;
   name : string;
   description : string;
-  spotId? : number;
+  spotUuid? : number;
   username? : string;
   creationDate? : string;
+  images: Images[];
 }

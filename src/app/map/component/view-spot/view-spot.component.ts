@@ -23,7 +23,7 @@ class CustomSet extends Set<SpotComment> {
 
   override has(value: SpotComment): boolean {
     for (let item of this) {
-      if (item.id === value.id)
+      if (item.uuid === value.uuid)
         return true;
     }
 
@@ -90,7 +90,7 @@ export class ViewSpotComponent {
   }
 
   addComment(comment: SpotComment) {
-    comment.spotId = this.spot.id;
+    comment.spotUuid = this.spot.uuid;
 
     this.commentService.createComment(comment).subscribe(
       comment => this.spotComments.add(comment)
@@ -100,7 +100,7 @@ export class ViewSpotComponent {
   }
 
   deleteSpot() {
-    this.spotService.deleteSpot(this.spot.id!).subscribe(
+    this.spotService.deleteSpot(this.spot.uuid!).subscribe(
       () => this.ondeleteSpotEmitter.emit(this.spot)
     )
   }

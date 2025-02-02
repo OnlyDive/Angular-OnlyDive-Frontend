@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SignUpRequest } from '../../interface/SignUpRequest';
 import { HttpClient } from '@angular/common/http';
-import { LogInRequest } from '../../interface/LogInRequest';
+import { LogInDto } from '../../interface/LogInDto';
 import { RefreshTokenRequest } from '../../interface/RefreshTokenRequest';
 import { Router } from '@angular/router';
 import {AuthResponse} from "../../interface/AuthResponse";
@@ -16,7 +16,7 @@ export class AuthService {
   private apiUrl: string = 'http://localhost:8080/api/v1/auth'
 
   constructor(private http: HttpClient, private router: Router) {
-    if (!this.router.url.startsWith('/logOut') && !this.router.url.startsWith("/verifyAccount")) {
+    if (!this.router.url.startsWith('/logOut') && !this.router.url.startsWith("/verifyAccount") && !this.isLoggedIn()) {
       this.checkLogIn();
     }
   }
@@ -32,6 +32,14 @@ export class AuthService {
   getJWT() {
     const auth:AuthResponse = JSON.parse(localStorage.getItem("JWT") || "{}");
     return auth;
+  }
+
+  getUsername() {
+    const JWT = this.getJWT();
+    if (JWT.user === undefined) {
+      throw Error("JWT user does not exist");
+    }
+    return JWT.user;
   }
 
   isLoggedIn(): boolean {
@@ -74,6 +82,8 @@ export class AuthService {
       },
       error: (e) => {
         console.log(e);
+        this.logOut();
+        window.location.reload();
       }
     });
 
@@ -89,9 +99,9 @@ export class AuthService {
     return this.http.post<String>(url, signUpRequest, httpOptionsForRaw)
   }
 
-  logIn(logInRequest: LogInRequest){
+  logIn(logInDto: LogInDto){
     const url = `${this.apiUrl}/logIn`;
-    return this.http.post<AuthResponse>(url, logInRequest, httpOptionsForJSON);
+    return this.http.post<AuthResponse>(url, logInDto, httpOptionsForJSON);
   }
 
   verifyAccount(verificationToken: string) {
